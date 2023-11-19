@@ -120,11 +120,12 @@ def ct2ctwuss(ctPath, outPath):
     fr = open(ctPath)
     fo = open(outPath,"w")
     # skip header
-    fr.readline()
+    header = fr.readline()
+    fo.write(header)
     s = fr.readline()
     i = 0
     while(s):
-        s += ' '+ss[i]+'\n'
+        s = s.rstrip()+' '+ss[i]+'\n'
         fo.write(s)
         s = fr.readline()
         i += 1
