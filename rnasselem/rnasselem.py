@@ -303,7 +303,7 @@ def make_indexes_dict(length, start_index, end_index):
 
 
 # public
-def get_external_loops_list(ctwuss):
+def get_external_loop_list(ctwuss):
     """ Returns the list of external loops.
         
         Each element of the list is dictionary with the following keys:
@@ -357,7 +357,7 @@ def define_input(input_object):
 
 
 # public
-def get_external_loops_stat(ctwuss):
+def get_external_loop_stat(ctwuss):
     """ Returns statistics on external loops in genome.
         
         Resulting dictionary contains following statistical keys:
@@ -384,7 +384,7 @@ def get_external_loops_stat(ctwuss):
 
 
 # public
-def get_hairpin_loops_list(ctwuss):
+def get_hairpin_loop_list(ctwuss):
     """ Returns the list of hairpin loops.
         
         Each element of the list is dictionary with the following keys:
