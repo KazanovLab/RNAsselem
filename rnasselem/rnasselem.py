@@ -790,8 +790,8 @@ def save_stat(ctwuss_path, output_path, is_append=False):
     """
     
     lines = ["External_loops", "Hairpin_loops", "Internal_loops", "Bulge_loops", "Multifurcation_loops", "Stems"]
-    stat = [get_external_loops_stat(ctwuss_path), get_hairpin_loops_stat(ctwuss_path), get_internal_loop_stat(ctwuss_path),
-            get_bulge_loops_stat(ctwuss_path), get_multifurcation_loops_stat(ctwuss_path), get_stem_stat(ctwuss_path)]
+    stat = [get_external_loop_stat(ctwuss_path), get_hairpin_loop_stat(ctwuss_path), get_internal_loop_stat(ctwuss_path),
+            get_bulge_loop_stat(ctwuss_path), get_multifurcation_loop_stat(ctwuss_path), get_stem_stat(ctwuss_path)]
 
     if isfile(output_path) and not is_append:
         print("This file is already exist. Delete this file and try again.")
