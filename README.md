@@ -19,8 +19,17 @@ Convert CT file to WUSS file:
 
 ```
 import rnasselem as r
-r.ct2wuss("/path/to/ct/file")
+r.ct2wuss("/path/to/ct/file","/path/to/wuss/file")
 ```
+
+Convert CT file to CT-WUSS file (CT file with an additional column containing WUSS notation):
+
+```
+import rnasselem as r
+r.ct2ctwuss("/path/to/ct/file","/path/to/wuss/file")
+```
+
+
 
 # Reporting Bugs and Feature Requests
 Please use the [GitHub issue tracker](https://github.com/KazanovLab/RNAsselem/issues) to report bugs or suggest features.
