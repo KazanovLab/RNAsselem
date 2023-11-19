@@ -679,7 +679,7 @@ def get_multifurcation_loop_list(ctwuss):
 
 
 # public
-def get_multifurcation_loops_stat(ctwuss):
+def get_multifurcation_loop_stat(ctwuss):
     """ Returns statistics on multifurcation loops in genome.
         
         Resulting dictionary contains following statistical keys:
