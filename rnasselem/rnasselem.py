@@ -115,6 +115,8 @@ def ct2ss(ctPath):
 
 def ct2ctwuss(ctPath, outPath):
 
+    ss = ct2ss(ctPath)
+    
     fr = open(ctPath)
     fo = open(outPath,"w")
     # skip header
@@ -131,6 +133,8 @@ def ct2ctwuss(ctPath, outPath):
 
 
 def ct2wuss(ctPath, outPath):
+    
+    ss = ct2ss(ctPath)
     
     fr = open(ctPath)
     fo = open(outPath,"w")
