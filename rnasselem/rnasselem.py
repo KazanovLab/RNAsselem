@@ -389,7 +389,7 @@ def get_external_loop_stat(ctwuss):
     input_type = define_input(ctwuss)
 
     if input_type == "path" or input_type == "input_list":
-        elements = get_external_loops_list(ctwuss)
+        elements = get_external_loop_list(ctwuss)
 
     stat = statistics(elements)
     return stat
@@ -453,14 +453,14 @@ def get_hairpin_loop_stat(ctwuss):
     input_type = define_input(ctwuss)
 
     if input_type == "path" or input_type == "input_list":
-        elements = get_hairpin_loops_list(ctwuss)
+        elements = get_hairpin_loop_list(ctwuss)
     
     stat = statistics(elements)
     return stat
 
 
 # private
-def get_bulge_and_internal_loops_list(wuss):
+def get_bulge_and_internal_loop_list(wuss):
 
     wuss_list = index_minus_one(load_ctwuss(wuss))
     genome = get_columns(wuss_list, [index_column_number, connection_column_number, symbol_column_number])
@@ -535,7 +535,7 @@ def get_internal_loop_list(ctwuss):
         interior_loops (list[dict]): list of dictionaries with internal loop properties
     """
 
-    interior_loops = get_bulge_and_internal_loops_list(ctwuss)[0]
+    interior_loops = get_bulge_and_internal_loop_list(ctwuss)[0]
     return interior_loops
 
 
@@ -583,7 +583,7 @@ def get_bulge_loop_list(ctwuss):
         bulges (list[dict]): list of dictionaries with bulge properties
     """
 
-    bulges = get_bulge_and_internal_loops_list(ctwuss)[1]
+    bulges = get_bulge_and_internal_loop_list(ctwuss)[1]
     return bulges
 
 
@@ -711,7 +711,7 @@ def get_multifurcation_loop_stat(ctwuss):
     input_type = define_input(ctwuss)
 
     if input_type == "path" or input_type == "input_list":
-        elements = get_multifurcation_loops_list(ctwuss)
+        elements = get_multifurcation_loop_list(ctwuss)
 
     stat = statistics(elements)
     return stat
