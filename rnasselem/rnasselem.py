@@ -158,7 +158,7 @@ def ct2wuss(ctPath, outPath):
     
     fo.write(">"+headName+'\n')
     fo.write(seq+'\n')
-    fo.write(ss+'\n')
+    fo.write(''.join(ss)+'\n')
     
     fr.close()
     fo.close()
