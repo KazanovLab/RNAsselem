@@ -1,5 +1,5 @@
 # RNAsselem
-a Python package for descriptive analysis of RNA secondary structure elements in viral genomes
+RNAsselem is a Python package for analyzing RNA secondary structure elements in viral genomes, which includes the recognition of common secondary structure patterns, the generation of descriptive statistics for these structural elements, and the provision of their basic properties. 
 
 # Installation
 
