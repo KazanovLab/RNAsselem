@@ -10,6 +10,148 @@ connection_column_number = 4
 symbol_column_number = 6
 
 
+def ct2ss(ctPath):
+    
+    try:
+        ctfile = open(ctPath)
+    except FileNotFoundError:
+        print("File not found.")
+    except PermissionError:
+        print("Permission error. Cannot open the file.")
+    except Exception as e:
+        print("An error occurred:", e)
+    
+    ct = [0]
+    ct2 = [0]
+    line = ctfile.readline()
+    flds = line.split()
+    numlines = int(flds[0])
+    i = 1
+    line = ctfile.readline()
+    while(line):
+        flds = line.split()
+        if len(flds) != 6:
+            print("Error: data line does not contain six columns.")
+            sys.exit()
+        if flds[0] != str(i):
+            print("Error: wrong line number " + flds[0] + " for " + str(i) + "-th line.")
+            sys.exit()
+        ct.append(int(flds[4]))
+        ct2.append(int(flds[4]))
+        line = ctfile.readline()
+        i += 1
+    
+    if numlines != (i-1):
+        print("Error: number of actual lines " + str(i-1) + " does not equal specified in file " + str(numlines) + ".")
+        sys.exit()
+    
+    n = numlines
+
+    npairs = 0
+    for i in range(1,n+1):
+        if ct[i] != 0 and i < ct[i]:
+            npairs += 1
+
+    print("Npairs:"+str(npairs))
+
+    rb = [-1] * 26
+    ss = [":"] * n
+
+    npairsActual = 0
+    stack = []
+    stackLoops = []
+    stackPseudo = []
+    for i in range(1,n+1):
+        if ct[i] == 0:
+            stack.append(i)
+        elif ct[i] > i:
+            stack.append(i)
+        else:
+            ispair = 0
+            numstr = 0
+            minlevel = -1
+            while len(stack)>0:
+                j = stack.pop()
+                if j < 0:
+                    numstr += 1
+                    if j < minlevel:
+                        minlevel = j
+                elif ct[j] == i:
+                    ispair = 1
+                    npairsActual += 1
+                    if numstr > 1 and minlevel > -4:
+                        minlevel -= 1
+                    if minlevel == -1:
+                        ss[j-1] = '<'
+                        ss[i-1] = '>'
+                    elif minlevel == -2:
+                        ss[j-1] = '('
+                        ss[i-1] = ')'
+                    elif minlevel == -3:
+                        ss[j-1] = '['
+                        ss[i-1] = ']'
+                    elif minlevel == -4:
+                        ss[j-1] = '{'
+                        ss[i-1] = '}'
+                    stack.append(minlevel)
+                    # loops
+                    while len(stackLoops) > 0:
+                        j = stackLoops.pop()
+                        if numstr == 0:
+                            ss[j-1] = '_'
+                        elif numstr == 1:
+                            ss[j-1] = '-'
+                        elif numstr > 1:
+                            ss[j-1] = ','
+                    break
+                elif ct[j] == 0:
+                    if ct2[j] == 0:
+                        stackLoops.append(j)
+                else:
+                    stackPseudo.append(j)
+
+    return(ss)
+
+
+def ct2ctwuss(ctPath, outPath):
+
+    fr = open(ctPath)
+    fo = open(outPath)
+    # skip header
+    fr.readline()
+    s = fr.readline()
+    i = 0
+    while(s):
+        s += ' '+ss[i]+'\n'
+        fo.write(s)
+        s = fr.readline()
+        i += 1
+    fr.close()
+    fo.close()
+
+
+def ct2wuss(ctPath, outPath):
+    
+    fr = open(ctPath)
+    fo = open(outPath)
+    # skip header
+    head = readline()
+    headName = head.split()[len(head)-1]
+    s = fr.readline()
+    i = 0
+    seq = ''
+    while(s):
+        seq += s.split()[1]
+        s = fr.readline()
+    
+    fo.write(">"+headName+'\n')
+    fo.write(seq+'\n')
+    fo.write(ss+'\n')
+    
+    fr.close()
+    fo.close()
+
+
 # public
 def load_ctwuss(ctwuss_path):
     """ Loads CT-modified file with WUSS annotation in additional column.
@@ -637,7 +779,16 @@ def get_stem_stat(ctwuss):
 
 # public
 def save_stat(ctwuss_path, output_path, is_append=False):
-
+    """ Saves statistics for all types of structural elements to file.
+        
+    Calculates and saves statistics on hairpin loops, internal loops, bulges, multifurcation loops and external loops to a specified output file.
+    
+    Parameters:
+    ctwuss_path (str): path to the CT-modified file or loaded file
+    output_path (str): path to the output file
+    is_append (bool): append output to existing file or create a new file
+    """
+    
     lines = ["External_loops", "Hairpin_loops", "Internal_loops", "Bulge_loops", "Multifurcation_loops", "Stems"]
     stat = [get_external_loops_stat(ctwuss_path), get_hairpin_loops_stat(ctwuss_path), get_internal_loop_stat(ctwuss_path),
             get_bulge_loops_stat(ctwuss_path), get_multifurcation_loops_stat(ctwuss_path), get_stem_stat(ctwuss_path)]
