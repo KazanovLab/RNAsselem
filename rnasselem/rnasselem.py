@@ -11,7 +11,15 @@ symbol_column_number = 6
 
 
 # public
-def load_wuss(wuss_path):
+def load_ctwuss(ctwuss_path):
+    """ Loads CT-modified file with WUSS annotation in additional column.
+        
+        Parameters:
+        ctwuss_path (str):
+        
+        Returns:
+        genome (list[list]): list of nucleotides with pairing info
+    """
 
     if isinstance(wuss_path, list):
         return wuss_path
@@ -72,26 +80,42 @@ def get_columns(wuss_list, column_numbers):
 # public
 def get_total_length(wuss):
 
-    wuss_array = load_wuss(wuss)
+    wuss_array = load_ctwuss(wuss)
     return len(wuss_array)
 
 
 # public
-def get_unpaired(wuss):
+def get_unpaired(ctwuss):
+    """ Returns the number of unpaired nucleotides in genome.
+        
+        Parameters:
+        ctwuss (str/list): path to the CT-modified file or loaded file
+        
+        Returns:
+        unpaired_cnt (int): number of unpaired nucleotides
+    """
 
-    wuss_list = load_wuss(wuss)
+    wuss_list = load_ctwuss(ctwuss)
     connection_indexes = get_columns(wuss_list, connection_column_number)
-    zero = connection_indexes.count(0)
-    return zero
+    unpaired_cnt = connection_indexes.count(0)
+    return unpaired_cnt
 
 
 # public
-def get_paired(wuss):
+def get_paired(ctwuss):
+    """ Returns the number of paired nucleotides in genome.
+        
+        Parameters:
+        ctwuss (str/list): path to the CT-modified file or loaded file
+        
+        Returns:
+        paired_cnt (int): number of paired nucleotides
+    """
 
-    total_length = get_total_length(wuss)
-    unpaired = get_unpaired(wuss)
-    paired = total_length - unpaired
-    return paired
+    total_length = get_total_length(ctwuss)
+    unpaired = get_unpaired(ctwuss)
+    paired_cnt = total_length - unpaired
+    return paired_cnt
 
 
 # private
@@ -137,9 +161,22 @@ def make_indexes_dict(length, start_index, end_index):
 
 
 # public
-def get_external_loops_list(wuss):
+def get_external_loops_list(ctwuss):
+    """ Returns the list of external loops.
+        
+        Each element of the list is dictionary with the following keys:
+        start_index: start position of external loop
+        end_index: end position of external loop
+        length: loop length
+       
+       Parameters:
+       ctwuss (str/list): path to the CT-modified file or loaded file
 
-    wuss_list = load_wuss(wuss)
+       Returns:
+       external_loops (list[dict]): list of dictionaries with external loop properties
+    """
+    
+    wuss_list = load_ctwuss(ctwuss)
     wuss_symbols = get_columns(wuss_list, symbol_column_number)
 
     external_loops = []
@@ -178,20 +215,49 @@ def define_input(input_object):
 
 
 # public
-def get_external_loops_stat(wuss):
+def get_external_loops_stat(ctwuss):
+    """ Returns statistics on external loops in genome.
+        
+        Resulting dictionary contains following statistical keys:
+        count: number of structural elements
+        mean_length: average length of the structural element
+        median_length: median length of the structural element
+        std_length: standard deviation of the length of the structural elements
+        total_length: total length of the structural elements in genome
+        
+        Parameters:
+        ctwuss (str/list): path to the CT-modified file or loaded file
 
-    input_type = define_input(wuss)
+        Returns:
+        stat (dict): dictionary with statistics on external loops
+    """
+        
+    input_type = define_input(ctwuss)
 
     if input_type == "path" or input_type == "input_list":
-        wuss = get_external_loops_list(wuss)
+        elements = get_external_loops_list(ctwuss)
 
-    return statistics(wuss)
+    stat = statistics(elements)
+    return stat
 
 
 # public
-def get_hairpin_loops_list(wuss):
+def get_hairpin_loops_list(ctwuss):
+    """ Returns the list of hairpin loops.
+        
+        Each element of the list is dictionary with the following keys:
+        start_index: start position of hairpin loop
+        end_index: end position of hairpin loop
+        length: loop length
+        
+        Parameters:
+        ctwuss (str/list): path to the CT-modified file or loaded file
+        
+        Returns:
+        hairpin_loops (list[dict]): list of dictionaries with hairpin loop properties
+    """
 
-    wuss_list = load_wuss(wuss)
+    wuss_list = load_ctwuss(ctwuss)
     wuss_symbols = get_columns(wuss_list, symbol_column_number)
 
     hairpin_loops = []
@@ -213,20 +279,36 @@ def get_hairpin_loops_list(wuss):
 
 
 # public
-def get_hairpin_loop_stat(wuss):
+def get_hairpin_loop_stat(ctwuss):
+    """ Returns statistics on hairpin loops in genome.
+        
+        Resulting dictionary contains following statistical keys:
+        count: number of structural elements
+        mean_length: average length of the structural element
+        median_length: median length of the structural element
+        std_length: standard deviation of the length of the structural elements
+        total_length: total length of the structural elements in genome
+        
+        Parameters:
+        ctwuss (str/list): path to the CT-modified file or loaded file
+        
+        Returns:
+        stat (dict): dictionary with statistics on hairpin loops
+    """
 
-    input_type = define_input(wuss)
+    input_type = define_input(ctwuss)
 
     if input_type == "path" or input_type == "input_list":
-        wuss = get_hairpin_loops_list(wuss)
-
-    return statistics(wuss)
+        elements = get_hairpin_loops_list(ctwuss)
+    
+    stat = statistics(elements)
+    return stat
 
 
 # private
 def get_bulge_and_internal_loops_list(wuss):
 
-    wuss_list = index_minus_one(load_wuss(wuss))
+    wuss_list = index_minus_one(load_ctwuss(wuss))
     genome = get_columns(wuss_list, [index_column_number, connection_column_number, symbol_column_number])
     brackets = ["<", "(", "[", "{"]
     cl_brackets = [">", ")", "]", "}"]
@@ -284,45 +366,117 @@ def get_bulge_and_internal_loops_list(wuss):
 
 
 # public
-def get_internal_loop_list(wuss):
+def get_internal_loop_list(ctwuss):
+    """ Returns the list of internal loops.
+        
+        Each element of the list is dictionary with the following keys:
+        start_index: start position of internal loop
+        end_index: end position of internal loop
+        length: loop length
+        
+        Parameters:
+        ctwuss (str/list): path to the CT-modified file or loaded file
+        
+        Returns:
+        interior_loops (list[dict]): list of dictionaries with internal loop properties
+    """
 
-    result = get_bulge_and_internal_loops_list(wuss)[0]
-    return result
+    interior_loops = get_bulge_and_internal_loops_list(ctwuss)[0]
+    return interior_loops
 
 
 # public
 def get_internal_loop_stat(wuss):
+    """ Returns statistics on internal loops in genome.
+        
+        Resulting dictionary contains following statistical keys:
+        count: number of structural elements
+        mean_length: average length of the structural element
+        median_length: median length of the structural element
+        std_length: standard deviation of the length of the structural elements
+        total_length: total length of the structural elements in genome
+        
+        Parameters:
+        ctwuss (str/list): path to the CT-modified file or loaded file
+        
+        Returns:
+        stat (dict): dictionary with statistics on internal loops
+    """
 
-    input_type = define_input(wuss)
 
-    if input_type == "path" or input_type == "input_list":
-        wuss = get_internal_loop_list(wuss)
-
-    return statistics(wuss)
-
-
-# public
-def get_bulge_loop_list(wuss):
-
-    result = get_bulge_and_internal_loops_list(wuss)[1]
-    return result
-
-
-# public
-def get_bulge_loop_stat(wuss):
-
-    input_type = define_input(wuss)
+    input_type = define_input(ctwuss)
 
     if input_type == "path" or input_type == "input_list":
-        wuss = get_bulge_loop_list(wuss)
+        elements = get_internal_loop_list(ctwuss)
 
-    return statistics(wuss)
+    stat = statistics(elements)
+    return stat
 
 
 # public
-def get_multifurcation_loop_list(wuss):
+def get_bulge_loop_list(ctwuss):
+    """ Returns the list of bulges.
+        
+        Each element of the list is dictionary with the following keys:
+        start_index: start position of bulge
+        end_index: end position of bulge
+        length: loop length
+        
+        Parameters:
+        ctwuss (str/list): path to the CT-modified file or loaded file
+        
+        Returns:
+        bulges (list[dict]): list of dictionaries with bulge properties
+    """
 
-    wuss_list = load_wuss(wuss)
+    bulges = get_bulge_and_internal_loops_list(ctwuss)[1]
+    return bulges
+
+
+# public
+def get_bulge_loop_stat(ctwuss):
+    """ Returns statistics on bulges in genome.
+        
+        Resulting dictionary contains following statistical keys:
+        count: number of structural elements
+        mean_length: average length of the structural element
+        median_length: median length of the structural element
+        std_length: standard deviation of the length of the structural elements
+        total_length: total length of the structural elements in genome
+        
+        Parameters:
+        ctwuss (str/list): path to the CT-modified file or loaded file
+        
+        Returns:
+        stat (dict): dictionary with statistics on bulges
+    """
+
+    input_type = define_input(ctwuss)
+
+    if input_type == "path" or input_type == "input_list":
+        elements = get_bulge_loop_list(ctwuss)
+
+    stat = statistics(wuss)
+    return stat
+
+
+# public
+def get_multifurcation_loop_list(ctwuss):
+    """ Returns the list of multifurcation loops.
+        
+        Each element of the list is dictionary with the following keys:
+        start_index: start position of multifurcation loop
+        end_index: end position of multifurcation loop
+        length: loop length
+        
+        Parameters:
+        ctwuss (str/list): path to the CT-modified file or loaded file
+        
+        Returns:
+        multifurcation_loops (list[dict]): list of dictionaries with multifurcation loop properties
+    """
+    
+    wuss_list = load_ctwuss(ctwuss)
     genome = index_minus_one(get_columns(wuss_list, [index_column_number, connection_column_number, symbol_column_number]))
 
     def find_bracket(bracket, array):
@@ -383,20 +537,49 @@ def get_multifurcation_loop_list(wuss):
 
 
 # public
-def get_multifurcation_loops_stat(wuss):
+def get_multifurcation_loops_stat(ctwuss):
+    """ Returns statistics on multifurcation loops in genome.
+        
+        Resulting dictionary contains following statistical keys:
+        count: number of structural elements
+        mean_length: average length of the structural element
+        median_length: median length of the structural element
+        std_length: standard deviation of the length of the structural elements
+        total_length: total length of the structural elements in genome
+        
+        Parameters:
+        ctwuss (str/list): path to the CT-modified file or loaded file
+        
+        Returns:
+        stat (dict): dictionary with statistics on multifurcation loops
+    """
 
-    input_type = define_input(wuss)
+    input_type = define_input(ctwuss)
 
     if input_type == "path" or input_type == "input_list":
-        wuss = get_multifurcation_loops_list(wuss)
+        elements = get_multifurcation_loops_list(ctwuss)
 
-    return statistics(wuss)
+    stat = statistics(elements)
+    return stat
 
 
 # public
-def get_stem_list(wuss):
+def get_stem_list(ctwuss):
+    """ Returns the list of stems.
+        
+        Each element of the list is dictionary with the following keys:
+        start_index: start position of stem
+        end_index: end position of stem
+        length: loop length
+        
+        Parameters:
+        ctwuss (str): path to the CT-modified file or loaded file
+        
+        Returns:
+        stem_list (list[dict]): list of dictionaries with stems properties
+    """
 
-    wuss_list = load_wuss(wuss)
+    wuss_list = load_ctwuss(ctwuss)
     genome = index_minus_one(get_columns(wuss_list, [index_column_number, connection_column_number, symbol_column_number]))
 
     brackets = ("(", "[", "<", "{")
@@ -424,25 +607,40 @@ def get_stem_list(wuss):
 
 
 # public
-def get_stem_stat(wuss):
+def get_stem_stat(ctwuss):
+    """ Returns statistics on stems in genome.
+        
+        Resulting dictionary contains following statistical keys:
+        count: number of structural elements
+        mean_length: average length of the structural element
+        median_length: median length of the structural element
+        std_length: standard deviation of the length of the structural elements
+        total_length: total length of the structural elements in genome
+        
+        Parameters:
+        ctwuss (str/list): path to the CT-modified file or loaded file
+        
+        Returns:
+        stat (dict): dictionary with statistics on stems
+    """
 
-    input_type = define_input(wuss)
+    input_type = define_input(ctwuss)
 
     if input_type == "path" or input_type == "input_list":
-        wuss = get_stem_list(wuss)
+        elements = get_stem_list(ctwuss)
 
-    stat = statistics(wuss)
+    stat = statistics(elements)
     stat["total_length"] *= 2
 
     return stat
 
 
 # public
-def save_stat(wuss, output_path, is_append=False):
+def save_stat(ctwuss_path, output_path, is_append=False):
 
     lines = ["External_loops", "Hairpin_loops", "Internal_loops", "Bulge_loops", "Multifurcation_loops", "Stems"]
-    stat = [get_external_loops_stat(wuss), get_hairpin_loops_stat(wuss), get_internal_loop_stat(wuss),
-            get_bulge_loops_stat(wuss), get_multifurcation_loops_stat(wuss), get_stem_stat(wuss)]
+    stat = [get_external_loops_stat(ctwuss_path), get_hairpin_loops_stat(ctwuss_path), get_internal_loop_stat(ctwuss_path),
+            get_bulge_loops_stat(ctwuss_path), get_multifurcation_loops_stat(ctwuss_path), get_stem_stat(ctwuss_path)]
 
     if isfile(output_path) and not is_append:
         print("This file is already exist. Delete this file and try again.")
@@ -452,7 +650,7 @@ def save_stat(wuss, output_path, is_append=False):
     if is_append:
         output_file.write("\n" * 2)
 
-    line1 = basename(wuss)
+    line1 = basename(ctwuss_path)
     output_file.write(line1 + "\n")
     line2 = "\tCount\tMean_length\tMedian_length\tStd_length\tTotal_length\n"
     output_file.write(line2)
@@ -465,10 +663,3 @@ def save_stat(wuss, output_path, is_append=False):
         line += "\t".join(stat_values) + '\n'
         output_file.write(line)
     return 0
-
-
-
-
-
-
-
