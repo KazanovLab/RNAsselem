@@ -610,7 +610,7 @@ def get_bulge_loop_stat(ctwuss):
     if input_type == "path" or input_type == "input_list":
         elements = get_bulge_loop_list(ctwuss)
 
-    stat = statistics(wuss)
+    stat = statistics(elements)
     return stat
 
 
