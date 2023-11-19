@@ -147,7 +147,8 @@ def ct2wuss(ctPath, outPath):
     fo = open(outPath,"w")
     # skip header
     head = fr.readline()
-    headName = head.split()[len(head)-1]
+    flds = head.split()
+    headName = flds[len(flds)-1]
     s = fr.readline()
     i = 0
     seq = ''
