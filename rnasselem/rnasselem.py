@@ -540,7 +540,7 @@ def get_internal_loop_list(ctwuss):
 
 
 # public
-def get_internal_loop_stat(wuss):
+def get_internal_loop_stat(ctwuss):
     """ Returns statistics on internal loops in genome.
         
         Resulting dictionary contains following statistical keys:
