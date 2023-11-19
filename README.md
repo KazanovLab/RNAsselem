@@ -15,6 +15,13 @@ RNAsselem is a Python package for analyzing RNA secondary structure elements in 
 
 # Quick start
 
+Convert CT file to WUSS file:
+
+```
+import rnasselem as r
+r.ct2wuss("/path/to/ct/file")
+```
+
 # Reporting Bugs and Feature Requests
 Please use the [GitHub issue tracker](https://github.com/KazanovLab/RNAsselem/issues) to report bugs or suggest features.
 
