@@ -15,5 +15,5 @@ from .rnasselem import get_bulge_loop_stat
 from .rnasselem import get_multifurcation_loop_list
 from .rnasselem import get_multifurcation_loop_stat
 from .rnasselem import get_stem_list
-from .rnasselem import get_stem_loop
+from .rnasselem import get_stem_stat
 from .rnasselem import save_stat
