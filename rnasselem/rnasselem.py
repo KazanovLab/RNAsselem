@@ -52,8 +52,6 @@ def ct2ss(ctPath):
         if ct[i] != 0 and i < ct[i]:
             npairs += 1
 
-    print("Npairs:"+str(npairs))
-
     rb = [-1] * 26
     ss = [":"] * n
 
@@ -110,6 +108,14 @@ def ct2ss(ctPath):
                 else:
                     stackPseudo.append(j)
 
+            if ispair == 0:
+                print("Cannot find left partner "+ct[i]+" of base "+i)
+                sys.exit()
+
+        for p in stackPseudo:
+            ct[p] = 0
+            ct[ct2[p]] = 0
+
     return(ss)
 
 
@@ -140,7 +146,7 @@ def ct2wuss(ctPath, outPath):
     fr = open(ctPath)
     fo = open(outPath,"w")
     # skip header
-    head = readline()
+    head = fr.readline()
     headName = head.split()[len(head)-1]
     s = fr.readline()
     i = 0
