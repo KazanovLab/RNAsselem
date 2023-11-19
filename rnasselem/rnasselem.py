@@ -175,11 +175,11 @@ def load_ctwuss(ctwuss_path):
         genome (list[list]): list of nucleotides with pairing info
     """
 
-    if isinstance(wuss_path, list):
-        return wuss_path
+    if isinstance(ctwuss_path, list):
+        return ctwuss_path
 
     else:
-        input_file = open(wuss_path, "r")
+        input_file = open(ctwuss_path, "r")
         input_file.readline()
         genome = []
 
