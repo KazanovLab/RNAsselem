@@ -29,6 +29,11 @@ import rnasselem as r
 r.ct2ctwuss("/path/to/ct/file","/path/to/wuss/file")
 ```
 
+Load CT-WUSS file for further processing:
+```
+import rnasselem as r
+r.load_ctwuss("/path/to/ctwuss/file")
+```
 
 
 # Reporting Bugs and Feature Requests
