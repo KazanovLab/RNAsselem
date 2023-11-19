@@ -116,7 +116,7 @@ def ct2ss(ctPath):
 def ct2ctwuss(ctPath, outPath):
 
     fr = open(ctPath)
-    fo = open(outPath)
+    fo = open(outPath,"w")
     # skip header
     fr.readline()
     s = fr.readline()
@@ -133,7 +133,7 @@ def ct2ctwuss(ctPath, outPath):
 def ct2wuss(ctPath, outPath):
     
     fr = open(ctPath)
-    fo = open(outPath)
+    fo = open(outPath,"w")
     # skip header
     head = readline()
     headName = head.split()[len(head)-1]
