@@ -1,14 +1,14 @@
-<img src="doc/logo.png" alt="logo" title="Secondary structure" align="right" height="60" />
+<img src="doc/logo.png" alt="logo" title="Secondary structure" align="right" height="150" />
 
 # RNAsselem
 
 RNAsselem is a Python package for analyzing RNA secondary structure elements in viral genomes, which includes the recognition of common secondary structure patterns, the generation of descriptive statistics for these structural elements, and the provision of their basic properties. 
 
-# Installation
+## Installation
 
 `pip install git+https://github.com/KazanovLab/RNAsselem.git#egg=RNAsselem`
 
-# Features
+## Features
 
 * convertion from dot-bracket or CT format to WUSS format
 * calculation of statistics on the pairing and unpairing of nucleotides
@@ -16,7 +16,7 @@ RNAsselem is a Python package for analyzing RNA secondary structure elements in 
 * generation a list of structural elements of a particular type with information on position and size, including hairpin loops, internal loops, bulges, and multifurcation loops; 
 * calculation of statistics on structural elements of a given type, providing a frequency of occurrence in the genome, as well as compiting the mean, median, standard deviations of the element size, and the total length of the elements in the genome.
 
-# Quick start
+## Quick start
 
 Convert CT file to WUSS file:
 
@@ -73,8 +73,8 @@ Content of the file with the saved statistics:
 
 
 
-# Reporting Bugs and Feature Requests
+## Reporting Bugs and Feature Requests
 Please use the [GitHub issue tracker](https://github.com/KazanovLab/RNAsselem/issues) to report bugs or suggest features.
 
-# Citing
+## Citing
 to be submitted
