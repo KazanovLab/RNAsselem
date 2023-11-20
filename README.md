@@ -57,7 +57,7 @@ import rnasselem as r
 r.save_stat("/path/to/ctwuss/file","/path/to/output/file")
 ```
 
-Content of the file with saved statistics:
+Content of the file with the saved statistics:
 
 |Structural element|Count|Mean_length|Median_length|Std_length|Total_length|
 |------------------|-----|-----------|-------------|----------|------------|
