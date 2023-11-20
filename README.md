@@ -55,7 +55,7 @@ Get and save statistics on all structural elements in the genome:
 ```
 import rnasselem as r
 r.save_stat("/path/to/ctwuss/file","/path/to/output/file")
-
+```
 
 |Count|Mean_length|Median_length|Std_length|Total_length|
 |-----|-----------|-------------|----------|------------|
@@ -66,7 +66,7 @@ r.save_stat("/path/to/ctwuss/file","/path/to/output/file")
 |Multifurcation_loops|62|28.97|24.0|19.04|1796|
 |Stems|535|4.48|4|2.49|4798|
 
-```
+
 
 # Reporting Bugs and Feature Requests
 Please use the [GitHub issue tracker](https://github.com/KazanovLab/RNAsselem/issues) to report bugs or suggest features.
