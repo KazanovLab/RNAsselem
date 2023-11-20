@@ -50,7 +50,7 @@ Get statistics on hairpin loops in the genome:
 import rnasselem as r
 ctwuss_file = r.load_ctwuss("/path/to/ctwuss/file")
 hairpin_stat = get_hairpin_loop_stat(ctwuss_file)
-print(stat)
+print(hairpin_stat)
 {'count': 231, 'mean_length': 8.48, 'median_length': 7, 'std_length': 6.24, 'total_length': 1958}
 ```
 
