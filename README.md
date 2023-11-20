@@ -58,8 +58,8 @@ r.save_stat("/path/to/ctwuss/file","/path/to/output/file")
 ```
 
 |Structural element|Count|Mean_length|Median_length|Std_length|Total_length|
-|-----|-----------|-------------|----------|------------|
-|External_loops|84|8.01	5.0|10.31|673|
+|------------------|-----|-----------|-------------|----------|------------|
+|External_loops|84|8.01|5.0|10.31|673|
 |Hairpin_loops|231|8.48|7|6.24|1958|
 |Internal_loops|194|6.66|5.0|5.44|1293|
 |Bulge_loops|114|1.8|1.0|2.04|205|
