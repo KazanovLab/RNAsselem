@@ -57,7 +57,7 @@ import rnasselem as r
 r.save_stat("/path/to/ctwuss/file","/path/to/output/file")
 ```
 
-|Count|Mean_length|Median_length|Std_length|Total_length|
+|Structural element|Count|Mean_length|Median_length|Std_length|Total_length|
 |-----|-----------|-------------|----------|------------|
 |External_loops|84|8.01	5.0|10.31|673|
 |Hairpin_loops|231|8.48|7|6.24|1958|
