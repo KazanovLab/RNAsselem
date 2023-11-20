@@ -1,4 +1,4 @@
-<img src="doc/logo.png" alt="logo" title="Secondary structure" align="right" height="250" />
+<img src="doc/logo_small.png" alt="logo" title="Secondary structure" align="right" height="250" />
 
 # RNAsselem
 
