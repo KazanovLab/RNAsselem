@@ -35,20 +35,37 @@ import rnasselem as r
 ctwuss_file = r.load_ctwuss("/path/to/ctwuss/file")
 ```
 
-Get the list of hairpin loops in genome:
+Get the list of hairpin loops in the genome:
 ```
 import rnasselem as r
 ctwuss_file = r.load_ctwuss("/path/to/ctwuss/file")
 hairpin_list = get_hairpin_loop_list(ctwuss_file)
 ```
 
-Get statistics on hairpin loops in genome:
+Get statistics on hairpin loops in the genome:
 ```
 import rnasselem as r
 ctwuss_file = r.load_ctwuss("/path/to/ctwuss/file")
 hairpin_stat = get_hairpin_loop_stat(ctwuss_file)
 print(stat)
 {'count': 231, 'mean_length': 8.48, 'median_length': 7, 'std_length': 6.24, 'total_length': 1958}
+```
+
+Get and save statistics on all structural elements in the genome:
+```
+import rnasselem as r
+r.save_stat("/path/to/ctwuss/file","/path/to/output/file")
+
+
+|Count|Mean_length|Median_length|Std_length|Total_length|
+|-----|-----------|-------------|----------|------------|
+|External_loops|84|8.01	5.0|10.31|673|
+|Hairpin_loops|231|8.48|7|6.24|1958|
+|Internal_loops|194|6.66|5.0|5.44|1293|
+|Bulge_loops|114|1.8|1.0|2.04|205|
+|Multifurcation_loops|62|28.97|24.0|19.04|1796|
+|Stems|535|4.48|4|2.49|4798|
+
 ```
 
 # Reporting Bugs and Feature Requests
