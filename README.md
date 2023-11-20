@@ -32,9 +32,24 @@ r.ct2ctwuss("/path/to/ct/file","/path/to/wuss/file")
 Load CT-WUSS file for further processing:
 ```
 import rnasselem as r
-r.load_ctwuss("/path/to/ctwuss/file")
+ctwuss_file = r.load_ctwuss("/path/to/ctwuss/file")
 ```
 
+Get the list of hairpin loops in genome:
+```
+import rnasselem as r
+ctwuss_file = r.load_ctwuss("/path/to/ctwuss/file")
+hairpin_list = get_hairpin_loop_list(ctwuss_file)
+```
+
+Get statistics on hairpin loops in genome:
+```
+import rnasselem as r
+ctwuss_file = r.load_ctwuss("/path/to/ctwuss/file")
+hairpin_stat = get_hairpin_loop_stat(ctwuss_file)
+print(stat)
+{'count': 231, 'mean_length': 8.48, 'median_length': 7, 'std_length': 6.24, 'total_length': 1958}
+```
 
 # Reporting Bugs and Feature Requests
 Please use the [GitHub issue tracker](https://github.com/KazanovLab/RNAsselem/issues) to report bugs or suggest features.
