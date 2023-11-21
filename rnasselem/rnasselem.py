@@ -120,7 +120,15 @@ def ct2ss(ctPath):
 
 
 def ct2ctwuss(ctPath, outPath):
-
+    """ Convert connectivity table (CT) format to CT-modified format with WUSS notation.
+    
+    Function converts connectivity table (CT) file with RNA secondary structure into the same format with WUSS annotation in additional column.
+    
+    Parameters:
+    ctPath (str): path to the connectivity table (CT) file
+    outPath (ctr): path for creating output CT-WUSS file
+    """
+    
     ss = ct2ss(ctPath)
     
     fr = open(ctPath)
@@ -140,7 +148,15 @@ def ct2ctwuss(ctPath, outPath):
 
 
 def ct2wuss(ctPath, outPath):
-    
+    """ Convert connectivity table (CT) format to WUSS format.
+        
+        Function converts connectivity table (CT) file with RNA secondary structure into the WUSS annotation file.
+        
+        Parameters:
+        ctPath (str): path to the connectivity table (CT) file
+        outPath (ctr): path for creating output WUSS file
+        """
+
     ss = ct2ss(ctPath)
     
     fr = open(ctPath)
@@ -169,7 +185,7 @@ def load_ctwuss(ctwuss_path):
     """ Loads CT-modified file with WUSS annotation in additional column.
         
         Parameters:
-        ctwuss_path (str):
+        ctwuss_path (str): path to the connectivity table (CT) file
         
         Returns:
         genome (list[list]): list of nucleotides with pairing info
