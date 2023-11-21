@@ -71,6 +71,10 @@ Content of the file with the saved statistics:
 |Multifurcation_loops|62|28.97|24.0|19.04|1796|
 |Stems|535|4.48|4|2.49|4798|
 
+## Documentation
+
+Full [documentation](https://rnasselem.readthedocs.io/en/latest/) is available online.
+
 ## Collection of RNA secondary structures of viral genomes
 The folder `Viral_Structure_Collection` contains a collection of secondary structures of RNA viral genomes, which were retrieved from publications. The collection is organized as follows: secondary structure files of the RNA viruses are located in separate folders, each named according to the short name of the respective virus. Each folder contains original CT files named according to the virus, concatenated with the PubMed ID of the publication from which these secondary structures were selected. If the original publications contained several secondary structures, the PubMed ID label was concatenated with a suffix explaining the origin of the structure mentioned in the publication. For example, the name of the cell line was included if several cell lines were used in the study.
 
