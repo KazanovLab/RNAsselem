@@ -125,8 +125,8 @@ def ct2ctwuss(ctPath, outPath):
     Function converts connectivity table (CT) file with RNA secondary structure into the same format with WUSS annotation in additional column.
     
     Parameters:
-    ctPath (str): path to the connectivity table (CT) file
-    outPath (ctr): path for creating output CT-WUSS file
+        ctPath (str): path to the connectivity table (CT) file
+        outPath (ctr): path for creating output CT-WUSS file
     """
     
     ss = ct2ss(ctPath)
@@ -153,8 +153,8 @@ def ct2wuss(ctPath, outPath):
         Function converts connectivity table (CT) file with RNA secondary structure into the WUSS annotation file.
         
         Parameters:
-        ctPath (str): path to the connectivity table (CT) file
-        outPath (ctr): path for creating output WUSS file
+            ctPath (str): path to the connectivity table (CT) file
+            outPath (ctr): path for creating output WUSS file
         """
 
     ss = ct2ss(ctPath)
@@ -185,10 +185,10 @@ def load_ctwuss(ctwuss_path):
     """ Loads CT-modified file with WUSS annotation in additional column.
         
         Parameters:
-        ctwuss_path (str): path to the connectivity table (CT) file
+            ctwuss_path (str): path to the connectivity table (CT) file
         
         Returns:
-        genome (list[list]): list of nucleotides with pairing info
+            genome (list[list]): list of nucleotides with pairing info
     """
 
     if isinstance(ctwuss_path, list):
@@ -259,10 +259,10 @@ def get_unpaired(ctwuss):
     """ Returns the number of unpaired nucleotides in genome.
         
         Parameters:
-        ctwuss (str/list): path to the CT-modified file or loaded file
+            ctwuss (str/list): path to the CT-modified file or loaded file
         
         Returns:
-        unpaired_cnt (int): number of unpaired nucleotides
+            unpaired_cnt (int): number of unpaired nucleotides
     """
 
     wuss_list = load_ctwuss(ctwuss)
@@ -276,10 +276,10 @@ def get_paired(ctwuss):
     """ Returns the number of paired nucleotides in genome.
         
         Parameters:
-        ctwuss (str/list): path to the CT-modified file or loaded file
+            ctwuss (str/list): path to the CT-modified file or loaded file
         
         Returns:
-        paired_cnt (int): number of paired nucleotides
+            paired_cnt (int): number of paired nucleotides
     """
 
     total_length = get_total_length(ctwuss)
@@ -340,10 +340,10 @@ def get_external_loop_list(ctwuss):
         length: loop length
        
        Parameters:
-       ctwuss (str/list): path to the CT-modified file or loaded file
+        ctwuss (str/list): path to the CT-modified file or loaded file
 
        Returns:
-       external_loops (list[dict]): list of dictionaries with external loop properties
+        external_loops (list[dict]): list of dictionaries with external loop properties
     """
     
     wuss_list = load_ctwuss(ctwuss)
@@ -396,10 +396,10 @@ def get_external_loop_stat(ctwuss):
         total_length: total length of the structural elements in genome
         
         Parameters:
-        ctwuss (str/list): path to the CT-modified file or loaded file
+            ctwuss (str/list): path to the CT-modified file or loaded file
 
         Returns:
-        stat (dict): dictionary with statistics on external loops
+            stat (dict): dictionary with statistics on external loops
     """
         
     input_type = define_input(ctwuss)
@@ -421,10 +421,10 @@ def get_hairpin_loop_list(ctwuss):
         length: loop length
         
         Parameters:
-        ctwuss (str/list): path to the CT-modified file or loaded file
+            ctwuss (str/list): path to the CT-modified file or loaded file
         
         Returns:
-        hairpin_loops (list[dict]): list of dictionaries with hairpin loop properties
+            hairpin_loops (list[dict]): list of dictionaries with hairpin loop properties
     """
 
     wuss_list = load_ctwuss(ctwuss)
@@ -460,10 +460,10 @@ def get_hairpin_loop_stat(ctwuss):
         total_length: total length of the structural elements in genome
         
         Parameters:
-        ctwuss (str/list): path to the CT-modified file or loaded file
+            ctwuss (str/list): path to the CT-modified file or loaded file
         
         Returns:
-        stat (dict): dictionary with statistics on hairpin loops
+            stat (dict): dictionary with statistics on hairpin loops
     """
 
     input_type = define_input(ctwuss)
@@ -545,10 +545,10 @@ def get_internal_loop_list(ctwuss):
         length: loop length
         
         Parameters:
-        ctwuss (str/list): path to the CT-modified file or loaded file
+            ctwuss (str/list): path to the CT-modified file or loaded file
         
         Returns:
-        interior_loops (list[dict]): list of dictionaries with internal loop properties
+            interior_loops (list[dict]): list of dictionaries with internal loop properties
     """
 
     interior_loops = get_bulge_and_internal_loop_list(ctwuss)[0]
@@ -567,10 +567,10 @@ def get_internal_loop_stat(ctwuss):
         total_length: total length of the structural elements in genome
         
         Parameters:
-        ctwuss (str/list): path to the CT-modified file or loaded file
+            ctwuss (str/list): path to the CT-modified file or loaded file
         
         Returns:
-        stat (dict): dictionary with statistics on internal loops
+            stat (dict): dictionary with statistics on internal loops
     """
 
 
@@ -593,10 +593,10 @@ def get_bulge_loop_list(ctwuss):
         length: loop length
         
         Parameters:
-        ctwuss (str/list): path to the CT-modified file or loaded file
+            ctwuss (str/list): path to the CT-modified file or loaded file
         
         Returns:
-        bulges (list[dict]): list of dictionaries with bulge properties
+            bulges (list[dict]): list of dictionaries with bulge properties
     """
 
     bulges = get_bulge_and_internal_loop_list(ctwuss)[1]
@@ -615,10 +615,10 @@ def get_bulge_loop_stat(ctwuss):
         total_length: total length of the structural elements in genome
         
         Parameters:
-        ctwuss (str/list): path to the CT-modified file or loaded file
+            ctwuss (str/list): path to the CT-modified file or loaded file
         
         Returns:
-        stat (dict): dictionary with statistics on bulges
+            stat (dict): dictionary with statistics on bulges
     """
 
     input_type = define_input(ctwuss)
@@ -640,10 +640,10 @@ def get_multifurcation_loop_list(ctwuss):
         length: loop length
         
         Parameters:
-        ctwuss (str/list): path to the CT-modified file or loaded file
+            ctwuss (str/list): path to the CT-modified file or loaded file
         
         Returns:
-        multifurcation_loops (list[dict]): list of dictionaries with multifurcation loop properties
+            multifurcation_loops (list[dict]): list of dictionaries with multifurcation loop properties
     """
     
     wuss_list = load_ctwuss(ctwuss)
@@ -718,10 +718,10 @@ def get_multifurcation_loop_stat(ctwuss):
         total_length: total length of the structural elements in genome
         
         Parameters:
-        ctwuss (str/list): path to the CT-modified file or loaded file
+            ctwuss (str/list): path to the CT-modified file or loaded file
         
         Returns:
-        stat (dict): dictionary with statistics on multifurcation loops
+            stat (dict): dictionary with statistics on multifurcation loops
     """
 
     input_type = define_input(ctwuss)
@@ -743,10 +743,10 @@ def get_stem_list(ctwuss):
         length: loop length
         
         Parameters:
-        ctwuss (str): path to the CT-modified file or loaded file
+            ctwuss (str): path to the CT-modified file or loaded file
         
         Returns:
-        stem_list (list[dict]): list of dictionaries with stems properties
+            stem_list (list[dict]): list of dictionaries with stems properties
     """
 
     wuss_list = load_ctwuss(ctwuss)
@@ -788,10 +788,10 @@ def get_stem_stat(ctwuss):
         total_length: total length of the structural elements in genome
         
         Parameters:
-        ctwuss (str/list): path to the CT-modified file or loaded file
+            ctwuss (str/list): path to the CT-modified file or loaded file
         
         Returns:
-        stat (dict): dictionary with statistics on stems
+            stat (dict): dictionary with statistics on stems
     """
 
     input_type = define_input(ctwuss)
@@ -812,9 +812,9 @@ def save_stat(ctwuss_path, output_path, is_append=False):
     Calculates and saves statistics on hairpin loops, internal loops, bulges, multifurcation loops and external loops to a specified output file.
     
     Parameters:
-    ctwuss_path (str): path to the CT-modified file or loaded file
-    output_path (str): path to the output file
-    is_append (bool): append output to existing file or create a new file
+        ctwuss_path (str): path to the CT-modified file or loaded file
+        output_path (str): path to the output file
+        is_append (bool): append output to existing file or create a new file
     """
     
     lines = ["External_loops", "Hairpin_loops", "Internal_loops", "Bulge_loops", "Multifurcation_loops", "Stems"]
