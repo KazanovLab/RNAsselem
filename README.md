@@ -8,6 +8,10 @@ RNAsselem is a Python package for analyzing RNA secondary structure elements in 
 
 `pip install git+https://github.com/KazanovLab/RNAsselem.git#egg=RNAsselem`
 
+or
+
+`pip install rnasselem`
+
 ## Features
 
 * convertion from dot-bracket or CT format to WUSS format
