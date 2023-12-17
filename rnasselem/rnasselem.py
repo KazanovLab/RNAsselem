@@ -141,6 +141,7 @@ def ct2ss(ctPath):
                         lbound = rbound
                     else:
                         lbound = ct[i]
+                    rbound = ct[j]
                         
                 npairsActual += 1
 
