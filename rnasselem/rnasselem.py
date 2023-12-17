@@ -135,7 +135,7 @@ def ct2ss(ctPath):
                 if k == lbound:
                     numpseudo += 1
                     xpk += 1
-                    while i < rb[xpk]:
+                    while j < rb[xpk]:
                         xpk += 1
                     if rbound < ct[j]:
                         lbound = rbound
