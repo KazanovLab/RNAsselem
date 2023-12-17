@@ -148,6 +148,7 @@ def ct2ss(ctPath):
                 if (xpk + ord('a')) <= ord('z'):
                     if ct[j] > rb[xpk]:
                         rb[xpk] = ct[j]
+                    print(xpk)
                     ss[j-1] = chr(xpk+ord('A'))
                     ss[ct[j]-1] = chr(xpk+ord('a'))
 
