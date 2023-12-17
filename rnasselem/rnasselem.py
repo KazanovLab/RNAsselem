@@ -114,6 +114,7 @@ def ct2ss(ctPath):
                 sys.exit()
 
         if len(stackPseudo) > 0:
+            k = 0
             lbound = ct[i]
             rbound = lbound + 1
             xpk = -1
