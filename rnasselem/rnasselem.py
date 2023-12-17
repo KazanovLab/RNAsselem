@@ -122,16 +122,20 @@ def ct2ss(ctPath):
             while len(stackPseudo)>0:
                 j = stackPseudo.pop()
                 print(k)
-                for k in range(rbound-1,lbound,-1):
+                k = rbound - 1
+                while k > lbound:
                     if ct[k] == 0:
+                        k -= 1
                         continue
                     elif ct[k] > rbound:
+                        k -= 1
                         continue
                     elif ct[k] == j:
                         break
                     else:
                         k = lbound
                         break
+                    k -= 1
             
                 print(k)
                 print(lbound)
