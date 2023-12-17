@@ -132,6 +132,8 @@ def ct2ss(ctPath):
                         k = lbound
                         break
             
+                print(k)
+                print(lbound)
                 if k == lbound:
                     numpseudo += 1
                     xpk += 1
