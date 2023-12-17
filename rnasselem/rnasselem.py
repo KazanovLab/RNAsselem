@@ -145,7 +145,7 @@ def ct2ss(ctPath):
                         
                 npairsActual += 1
 
-                if xpk + ord('a') <= ord('z'):
+                if (xpk + ord('a')) <= ord('z'):
                     if ct[j] > rb[xpk]:
                         rb[xpk] = ct[j]
                     ss[j-1] = chr(xpk+ord('A'))
