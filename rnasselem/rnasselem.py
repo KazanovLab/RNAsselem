@@ -52,6 +52,7 @@ def ct2ss(ctPath):
         if ct[i] != 0 and i < ct[i]:
             npairs += 1
 
+    numpseudo = 0
     rb = [-1] * 26
     ss = [":"] * n
 
@@ -112,9 +113,59 @@ def ct2ss(ctPath):
                 print("Cannot find left partner "+ct[i]+" of base "+i)
                 sys.exit()
 
-        for p in stackPseudo:
-            ct[p] = 0
-            ct[ct2[p]] = 0
+        if len(stackPseudo) > 0:
+            k = 0
+            lbound = ct[i]
+            rbound = lbound + 1
+            xpk = -1
+            
+            while len(stackPseudo)>0:
+                j = stackPseudo.pop()
+                print(k)
+                k = rbound - 1
+                while k > lbound:
+                    if ct[k] == 0:
+                        k -= 1
+                        continue
+                    elif ct[k] > rbound:
+                        k -= 1
+                        continue
+                    elif ct[k] == j:
+                        break
+                    else:
+                        k = lbound
+                        break
+                    k -= 1
+            
+                print(k)
+                print(lbound)
+                print(rbound)
+                if k == lbound:
+                    numpseudo += 1
+                    xpk += 1
+                    while j < rb[xpk]:
+                        xpk += 1
+                    if rbound < ct[j]:
+                        lbound = rbound
+                    else:
+                        lbound = ct[i]
+                    rbound = ct[j]
+                        
+                npairsActual += 1
+
+                if (xpk + ord('a')) <= ord('z'):
+                    if ct[j] > rb[xpk]:
+                        rb[xpk] = ct[j]
+                    print(xpk)
+                    ss[j-1] = chr(xpk+ord('A'))
+                    ss[ct[j]-1] = chr(xpk+ord('a'))
+
+                    ct[j] = 0
+                    ct[ct2[j]] = 0
+
+                else:
+                    print("Too many pseudoknots to describe by letters.")
+                    sys.exit()
 
     return(ss)
 
