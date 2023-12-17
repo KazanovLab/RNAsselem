@@ -52,6 +52,7 @@ def ct2ss(ctPath):
         if ct[i] != 0 and i < ct[i]:
             npairs += 1
 
+    numpseudo = 0
     rb = [-1] * 26
     ss = [":"] * n
 
@@ -112,9 +113,48 @@ def ct2ss(ctPath):
                 print("Cannot find left partner "+ct[i]+" of base "+i)
                 sys.exit()
 
-        for p in stackPseudo:
-            ct[p] = 0
-            ct[ct2[p]] = 0
+        if len(stackPseudo) > 0:
+            lbound = ct[i]
+            rbound = lbound + 1
+            xpk = -1
+            
+            while len(stackPseudo)>0:
+                j = stackPseudo.pop()
+                for k in range(rbound-1,lbound,-1):
+                    if ct[k] == 0:
+                        continue
+                    elif ct[k] > rbound:
+                        continue
+                    elif ct[k] == j:
+                        break
+                    else:
+                        k = lbound
+                        break
+            
+                if k == lbound:
+                    numpseudo += 1
+                    xpk += 1
+                    while i < rb[xpk]:
+                        xpk += 1
+                    if rbound < ct[j]:
+                        lbound = rbound
+                    else:
+                        lbound = ct[i]
+                        
+                npairsActual += 1
+
+                if xpk + ord('a') <= ord('z'):
+                    if ct[j] > rb[xpk]:
+                        rb[xpk] = ct[j]
+                    ss[j-1] = chr(xpk+ord('A'))
+                    ss[ct[j]-1] = chr(xpk+ord('a'))
+
+                    ct[j] = 0
+                    ct[ct2[j]] = 0
+
+                else:
+                    print("Too many pseudoknots to describe by letters.")
+                    sys.exit()
 
     return(ss)
 
