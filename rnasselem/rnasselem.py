@@ -121,6 +121,7 @@ def ct2ss(ctPath):
             
             while len(stackPseudo)>0:
                 j = stackPseudo.pop()
+                print(k)
                 for k in range(rbound-1,lbound,-1):
                     if ct[k] == 0:
                         continue
