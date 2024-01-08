@@ -965,4 +965,4 @@ def convretions(input_path, output_path):
             line += f"{0:>{m}}"
         line += f"{i + 1:>{n}}"
         output_file.write(line + "\n")
-        
+    output_file.close()
