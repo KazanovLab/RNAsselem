@@ -893,3 +893,76 @@ def save_stat(ctwuss_path, output_path, is_append=False):
         line += "\t".join(stat_values) + '\n'
         output_file.write(line)
     return 0
+
+
+def convretions(input_path, output_path):
+
+    def read_dot_bracket(path):
+        file = open(path, "r")
+        name = file.readline()
+        letters = list(file.readline())
+        symbols = list(file.readline())
+        n = len(letters)
+        dot_bracket_list = []
+
+        for i in range(n):
+            nucleotide = [i + 1, symbols[i], letters[i]]
+            dot_bracket_list.append(nucleotide)
+
+        return [name, dot_bracket_list[:-1]]
+
+    name, dot_bracket_list = read_dot_bracket(input_path)
+    brackets_list = []
+    for nucleotide in dot_bracket_list:
+        if nucleotide[1] in ["(", ")"]:
+            brackets_list.append(nucleotide)
+
+
+    def delete_pair(brackets_list):
+
+        empty = [-2] * 3
+        pairs = {}
+        for i in range(len(brackets_list)):
+
+            if i == 0:
+                continue
+
+            else:
+                nucleotide = brackets_list[i]
+                previous_nucleotide = brackets_list[i - 1]
+                if nucleotide[1] == ")" and previous_nucleotide[1] == "(":
+                    l = nucleotide[0]
+                    r = previous_nucleotide[0]
+                    pairs[l] = r
+                    pairs[r] = l
+                    brackets_list[i] = empty
+                    brackets_list[i - 1] = empty
+
+        while empty in brackets_list:
+            brackets_list.remove(empty)
+
+        return pairs, brackets_list
+
+    connections_dict = {}
+    while len(brackets_list) != 0:
+        pairs, brackets_list = delete_pair(brackets_list)
+        connections_dict.update(pairs)
+
+    output_file = open(output_path, "w")
+    length = len(dot_bracket_list)
+    output_file.write(f"{length} {name[1:-1]}\n")
+    n = len(str(length)) + 1
+    maximum = max(list(connections_dict.keys()))
+    m = len(str(maximum)) + 1
+    for i in range(length):
+        line = f"{i + 1:>{n}}"
+        line += " " + dot_bracket_list[i][2]
+        line += f"{i:>{n}}"
+        line += f"{i + 2:>{n}}"
+        if i + 1 in connections_dict:
+            line += f"{connections_dict[i + 1]:>{m}}"
+        else:
+            line += f"{0:>{m}}"
+        line += f"{i + 1:>{n}}"
+        output_file.write(line + "\n")
+        
