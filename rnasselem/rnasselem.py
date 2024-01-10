@@ -895,7 +895,15 @@ def save_stat(ctwuss_path, output_path, is_append=False):
     return 0
 
 
-def convretions(input_path, output_path):
+def dotbracket2ct(input_path, output_path):
+
+    """ Converts dot-bracket format file to CT format file
+
+    Parameters:
+        input_path (str): path to the dot-bracket file
+        output_path (str): path to the output CT file
+    """
+
 
     def read_dot_bracket(path):
         file = open(path, "r")
