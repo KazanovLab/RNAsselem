@@ -4,14 +4,13 @@ from operator import itemgetter
 from os.path import isfile
 from os.path import basename
 
-
 index_column_number = 0
 connection_column_number = 4
 symbol_column_number = 6
+structure_column_number = 7
 
 
 def ct2ss(ctPath):
-    
     try:
         ctfile = open(ctPath)
     except FileNotFoundError:
@@ -20,7 +19,7 @@ def ct2ss(ctPath):
         print("Permission error. Cannot open the file.")
     except Exception as e:
         print("An error occurred:", e)
-    
+
     ct = [0]
     ct2 = [0]
     line = ctfile.readline()
@@ -28,7 +27,7 @@ def ct2ss(ctPath):
     numlines = int(flds[0])
     i = 1
     line = ctfile.readline()
-    while(line):
+    while (line):
         flds = line.split()
         if len(flds) != 6:
             print("Error: data line does not contain six columns.")
@@ -40,15 +39,16 @@ def ct2ss(ctPath):
         ct2.append(int(flds[4]))
         line = ctfile.readline()
         i += 1
-    
-    if numlines != (i-1):
-        print("Error: number of actual lines " + str(i-1) + " does not equal specified in file " + str(numlines) + ".")
+
+    if numlines != (i - 1):
+        print(
+            "Error: number of actual lines " + str(i - 1) + " does not equal specified in file " + str(numlines) + ".")
         sys.exit()
-    
+
     n = numlines
 
     npairs = 0
-    for i in range(1,n+1):
+    for i in range(1, n + 1):
         if ct[i] != 0 and i < ct[i]:
             npairs += 1
 
@@ -60,7 +60,7 @@ def ct2ss(ctPath):
     stack = []
     stackLoops = []
     stackPseudo = []
-    for i in range(1,n+1):
+    for i in range(1, n + 1):
         if ct[i] == 0:
             stack.append(i)
         elif ct[i] > i:
@@ -69,7 +69,7 @@ def ct2ss(ctPath):
             ispair = 0
             numstr = 0
             minlevel = -1
-            while len(stack)>0:
+            while len(stack) > 0:
                 j = stack.pop()
                 if j < 0:
                     numstr += 1
@@ -81,27 +81,27 @@ def ct2ss(ctPath):
                     if numstr > 1 and minlevel > -4:
                         minlevel -= 1
                     if minlevel == -1:
-                        ss[j-1] = '<'
-                        ss[i-1] = '>'
+                        ss[j - 1] = '<'
+                        ss[i - 1] = '>'
                     elif minlevel == -2:
-                        ss[j-1] = '('
-                        ss[i-1] = ')'
+                        ss[j - 1] = '('
+                        ss[i - 1] = ')'
                     elif minlevel == -3:
-                        ss[j-1] = '['
-                        ss[i-1] = ']'
+                        ss[j - 1] = '['
+                        ss[i - 1] = ']'
                     elif minlevel == -4:
-                        ss[j-1] = '{'
-                        ss[i-1] = '}'
+                        ss[j - 1] = '{'
+                        ss[i - 1] = '}'
                     stack.append(minlevel)
                     # loops
                     while len(stackLoops) > 0:
                         j = stackLoops.pop()
                         if numstr == 0:
-                            ss[j-1] = '_'
+                            ss[j - 1] = '_'
                         elif numstr == 1:
-                            ss[j-1] = '-'
+                            ss[j - 1] = '-'
                         elif numstr > 1:
-                            ss[j-1] = ','
+                            ss[j - 1] = ','
                     break
                 elif ct[j] == 0:
                     if ct2[j] == 0:
@@ -110,7 +110,7 @@ def ct2ss(ctPath):
                     stackPseudo.append(j)
 
             if ispair == 0:
-                print("Cannot find left partner "+ct[i]+" of base "+i)
+                print("Cannot find left partner " + ct[i] + " of base " + i)
                 sys.exit()
 
         if len(stackPseudo) > 0:
@@ -118,8 +118,8 @@ def ct2ss(ctPath):
             lbound = ct[i]
             rbound = lbound + 1
             xpk = -1
-            
-            while len(stackPseudo)>0:
+
+            while len(stackPseudo) > 0:
                 j = stackPseudo.pop()
                 print(k)
                 k = rbound - 1
@@ -136,7 +136,7 @@ def ct2ss(ctPath):
                         k = lbound
                         break
                     k -= 1
-            
+
                 print(k)
                 print(lbound)
                 print(rbound)
@@ -150,15 +150,15 @@ def ct2ss(ctPath):
                     else:
                         lbound = ct[i]
                     rbound = ct[j]
-                        
+
                 npairsActual += 1
 
                 if (xpk + ord('a')) <= ord('z'):
                     if ct[j] > rb[xpk]:
                         rb[xpk] = ct[j]
                     print(xpk)
-                    ss[j-1] = chr(xpk+ord('A'))
-                    ss[ct[j]-1] = chr(xpk+ord('a'))
+                    ss[j - 1] = chr(xpk + ord('A'))
+                    ss[ct[j] - 1] = chr(xpk + ord('a'))
 
                     ct[j] = 0
                     ct[ct2[j]] = 0
@@ -167,7 +167,7 @@ def ct2ss(ctPath):
                     print("Too many pseudoknots to describe by letters.")
                     sys.exit()
 
-    return(ss)
+    return (ss)
 
 
 def ct2ctwuss(ctPath, outPath):
@@ -179,18 +179,18 @@ def ct2ctwuss(ctPath, outPath):
         ctPath (str): path to the connectivity table (CT) file
         outPath (ctr): path for creating output CT-WUSS file
     """
-    
+
     ss = ct2ss(ctPath)
-    
+
     fr = open(ctPath)
-    fo = open(outPath,"w")
+    fo = open(outPath, "w")
     # skip header
     header = fr.readline()
     fo.write(header)
     s = fr.readline()
     i = 0
-    while(s):
-        s = s.rstrip()+' '+ss[i]+'\n'
+    while (s):
+        s = s.rstrip() + ' ' + ss[i] + '\n'
         fo.write(s)
         s = fr.readline()
         i += 1
@@ -209,26 +209,149 @@ def ct2wuss(ctPath, outPath):
         """
 
     ss = ct2ss(ctPath)
-    
+
     fr = open(ctPath)
-    fo = open(outPath,"w")
+    fo = open(outPath, "w")
     # skip header
     head = fr.readline()
     flds = head.split()
-    headName = flds[len(flds)-1]
+    headName = flds[len(flds) - 1]
     s = fr.readline()
     i = 0
     seq = ''
-    while(s):
+    while (s):
         seq += s.split()[1]
         s = fr.readline()
-    
-    fo.write(">"+headName+'\n')
-    fo.write(seq+'\n')
-    fo.write(''.join(ss)+'\n')
-    
+
+    fo.write(">" + headName + '\n')
+    fo.write(seq + '\n')
+    fo.write(''.join(ss) + '\n')
+
     fr.close()
     fo.close()
+
+
+# private
+def index_minus_one(wuss_list):
+    print(wuss_list[0])
+    wuss_list_copy = wuss_list[:]
+    for i in range(len(wuss_list_copy)):
+        nucleotide = wuss_list_copy[i]
+
+        if isinstance(nucleotide, list):
+            for j in range(len(nucleotide)):
+                element = nucleotide[j]
+                if isinstance(element, int):
+                    wuss_list_copy[i][j] = element - 1
+
+        else:
+            if isinstance(nucleotide, int):
+                wuss_list_copy[i] = nucleotide - 1
+    print(wuss_list[0])
+    return wuss_list_copy
+
+
+# private
+def make_indexes_dict(length, start_index, end_index):
+    d = {"length": length, "start_index": start_index + 1, "end_index": end_index + 1}
+    return d
+
+
+# private
+def get_columns(wuss_list, column_numbers):
+    if isinstance(column_numbers, int):
+        column_numbers = [column_numbers]
+    new_wuss_list = []
+    for nucleotide in wuss_list:
+        only_necessary = []
+        for i in column_numbers:
+            only_necessary.append(nucleotide[i])
+        if len(only_necessary) == 1:
+            new_wuss_list.append(only_necessary[0])
+        else:
+            new_wuss_list.append(only_necessary)
+
+    return new_wuss_list
+
+
+# private
+def change_letters(wuss_list, structure_column_index):
+
+    def change_structure(index, wuss_list):
+        structures = ["hairpin_loop", "external_loop", "multifurcation_loop",
+                      "indefinite_loop", "internal_loop", "bulge_loop"]
+        previous_nucleotide = wuss_list[index - 1][structure_column_index]
+        next_nucleotide = wuss_list[index + 1][structure_column_index]
+
+        if previous_nucleotide in structures:
+            appropriate_structure = previous_nucleotide
+        elif next_nucleotide in structures:
+            appropriate_structure = next_nucleotide
+        else:
+            print(next_nucleotide, index)
+            appropriate_structure = change_structure(index + 1, wuss_list)
+
+        wuss_list[index][structure_column_index] = appropriate_structure
+        return appropriate_structure
+
+    for i in range(len(wuss_list)):
+        if wuss_list[i][structure_column_index] == "pseudoknot":
+            change_structure(i, wuss_list)
+
+    return wuss_list
+
+
+# private
+def get_bulge_and_internal_loop_list(wuss_list):
+    wuss_list_copy = wuss_list.copy()
+    wuss_list_copy = index_minus_one(wuss_list_copy)
+    genome = get_columns(wuss_list_copy, [index_column_number, connection_column_number, symbol_column_number, structure_column_number])
+    brackets = ["<", "(", "[", "{"]
+    cl_brackets = [">", ")", "]", "}"]
+    loops = ["bulge_loop", "internal_loop", "indefinite_loop"]
+    length = 0
+    interior_loops = []
+    bulge_loops = []
+    used = []
+
+    for i in range(len(genome)):
+        nucleotide = genome[i]
+        previous_nucleotide = genome[i - 1] if i != 0 else [[], [], []]
+
+        if nucleotide[2] in brackets:
+
+            if previous_nucleotide[3] in loops:
+                right_index = nucleotide[0]
+                left_connection_index = genome[right_index][1]
+                right_connection_index = genome[left_index][1]
+                quantity = right_connection_index - left_connection_index - 1
+                if quantity > 0:
+                    total_length = length + quantity
+                    intervals = [[left_index + 2, right_index], [left_connection_index + 2, right_connection_index]]
+                    d = {"length": total_length, "intervals": intervals}
+                    interior_loops.append(d)
+                    used.append([left_connection_index, right_connection_index])
+                else:
+                    dictionary = {"length": length, "intervals": [[left_index + 2, right_index]]}
+                    bulge_loops.append(dictionary)
+                length = 0
+
+        elif nucleotide[2] in cl_brackets:
+
+            if previous_nucleotide[3] in loops:
+                right_index = nucleotide[0]
+
+                if [left_index, right_index] not in used:
+                    dictionary = {"length": length, "intervals": [[left_index + 2, right_index]]}
+                    bulge_loops.append(dictionary)
+                length = 0
+
+        elif nucleotide[3] in loops:
+            if previous_nucleotide[2] in (brackets + cl_brackets):
+                left_index = previous_nucleotide[0]
+            length += 1
+
+    return [interior_loops, bulge_loops]
 
 
 # public
@@ -248,7 +371,7 @@ def load_ctwuss(ctwuss_path):
     else:
         input_file = open(ctwuss_path, "r")
         input_file.readline()
-        genome = []
+        wuss_list = []
 
         for line in input_file:
             nucleotide = line.split()
@@ -258,49 +381,50 @@ def load_ctwuss(ctwuss_path):
                 if symbol.isdecimal():
                     nucleotide[i] = int(symbol)
 
-            genome.append(nucleotide)
-        return genome
+            symbol = nucleotide[-1]
+
+            if symbol == ":":
+                structure_type = "external_loop"
+            elif symbol == ",":
+                structure_type = "multifurcation_loop"
+            elif symbol == "_":
+                structure_type = "hairpin_loop"
+            elif symbol == "-":
+                structure_type = "indefinite_loop"
+            elif symbol in ["<", "(", "[", "{", ">", ")", "]", "}"]:
+                structure_type = "stem"
+            else:
+                structure_type = "pseudoknot"
+
+            nucleotide.append(structure_type)
+            wuss_list.append(nucleotide)
+
+        wuss_list = change_letters(wuss_list, symbol_column_number + 1)
+        bulge_loops = get_bulge_and_internal_loop_list(wuss_list)[1]
+        bulge_indexes = []
+
+        for bulge_loop in bulge_loops:
+            interval = bulge_loop["intervals"][0]
+            interval_range = list(range(interval[0], interval[1] + 1))
+            bulge_indexes += interval_range
+
+        for i in range(len(wuss_list)):
+            nucleotide = wuss_list[i]
+            if nucleotide[structure_column_number] == "indefinite_loop":
+                if i + 1 in bulge_indexes:
+                    wuss_list[i][structure_column_number] = "bulge_loop"
+                else:
+                    wuss_list[i][structure_column_number] = "internal_loop"
+
+        return wuss_list
 
 
-def index_minus_one(wuss):
-
-    for i in range(len(wuss)):
-        nucleotide = wuss[i]
-
-        if isinstance(nucleotide, list):
-            for j in range(len(nucleotide)):
-                element = nucleotide[j]
-                if isinstance(element, int):
-                    wuss[i][j] = element - 1
-
-        else:
-            if isinstance(nucleotide, int):
-                wuss[i] = nucleotide - 1
-
-    return wuss
-
-
-# private
-def get_columns(wuss_list, column_numbers):
-
-    if isinstance(column_numbers, int):
-        column_numbers = [column_numbers]
-    new_wuss_list = []
-    for nucleotide in wuss_list:
-        only_necessary = []
-        for i in column_numbers:
-            only_necessary.append(nucleotide[i])
-        if len(only_necessary) == 1:
-            new_wuss_list.append(only_necessary[0])
-        else:
-            new_wuss_list.append(only_necessary)
-
-    return new_wuss_list
+a = load_ctwuss(r"C:\Users\fedor\Downloads\DENV2_30341219.ctwuss")
+#print(*a, sep="\n")
 
 
 # public
 def get_total_length(wuss):
-
     wuss_array = load_ctwuss(wuss)
     return len(wuss_array)
 
@@ -341,7 +465,6 @@ def get_paired(ctwuss):
 
 # private
 def statistics(results_list):
-
     length_list = []
     for element in results_list:
         length = element["length"]
@@ -374,13 +497,6 @@ def statistics(results_list):
     return stat_dict
 
 
-# private
-def make_indexes_dict(length, start_index, end_index):
-
-    d = {"length": length, "start_index": start_index + 1, "end_index": end_index + 1}
-    return d
-
-
 # public
 def get_external_loop_list(ctwuss):
     """ Returns the list of external loops.
@@ -396,9 +512,10 @@ def get_external_loop_list(ctwuss):
        Returns:
         external_loops (list[dict]): list of dictionaries with external loop properties
     """
-    
+
     wuss_list = load_ctwuss(ctwuss)
     wuss_symbols = get_columns(wuss_list, symbol_column_number)
+    wuss_symbols = change_letters(wuss_symbols, 0)
 
     external_loops = []
     length = 0
@@ -424,7 +541,6 @@ def get_external_loop_list(ctwuss):
 
 # private
 def define_input(input_object):
-
     if isinstance(input_object, str):
         return "path"
     else:
@@ -452,7 +568,7 @@ def get_external_loop_stat(ctwuss):
         Returns:
             stat (dict): dictionary with statistics on external loops
     """
-        
+
     input_type = define_input(ctwuss)
 
     if input_type == "path" or input_type == "input_list":
@@ -480,6 +596,7 @@ def get_hairpin_loop_list(ctwuss):
 
     wuss_list = load_ctwuss(ctwuss)
     wuss_symbols = get_columns(wuss_list, symbol_column_number)
+    wuss_symbols = change_letters(wuss_symbols, 0)
 
     hairpin_loops = []
     length = 0
@@ -521,69 +638,9 @@ def get_hairpin_loop_stat(ctwuss):
 
     if input_type == "path" or input_type == "input_list":
         elements = get_hairpin_loop_list(ctwuss)
-    
+
     stat = statistics(elements)
     return stat
-
-
-# private
-def get_bulge_and_internal_loop_list(wuss):
-
-    wuss_list = index_minus_one(load_ctwuss(wuss))
-    genome = get_columns(wuss_list, [index_column_number, connection_column_number, symbol_column_number])
-    brackets = ["<", "(", "[", "{"]
-    cl_brackets = [">", ")", "]", "}"]
-
-    def interior_or_bulge(left_index, right_index, genome):
-        slice = genome[left_index:right_index + 1]
-        quantity = 0
-        for nucleotide in slice:
-            if nucleotide[2] == "-":
-                quantity += 1
-        return quantity
-
-    length = 0
-    interior_loops = []
-    bulge_loops = []
-    used = []
-
-    for i in range(len(genome)):
-        nucleotide = genome[i]
-        previous_nucleotide = genome[i - 1] if i != 0 else [[], [], []]
-
-        if nucleotide[2] in brackets:
-
-            if previous_nucleotide[2] == "-":
-                right_index = nucleotide[0]
-                left_connection_index = genome[right_index][1]
-                right_connection_index = genome[left_index][1]
-                quantity = interior_or_bulge(left_connection_index, right_connection_index, genome)
-                if quantity > 0:
-                    total_length = length + quantity
-                    dictionary = make_indexes_dict(total_length, left_index + 1, right_connection_index - 1)
-                    interior_loops.append(dictionary)
-                    used.append([left_connection_index, right_connection_index])
-                else:
-                    dictionary = make_indexes_dict(length, left_index + 1, right_index - 1)
-                    bulge_loops.append(dictionary)
-                length = 0
-
-        elif nucleotide[2] in cl_brackets:
-
-            if previous_nucleotide[2] == "-":
-                right_index = nucleotide[0]
-
-                if [left_index, right_index] not in used:
-                    dictionary = make_indexes_dict(length, left_index + 1, right_index - 1)
-                    bulge_loops.append(dictionary)
-                length = 0
-
-        elif nucleotide[2] == "-":
-            if previous_nucleotide[2] in (brackets + cl_brackets):
-                left_index = previous_nucleotide[0]
-            length += 1
-
-    return [interior_loops, bulge_loops]
 
 
 # public
@@ -602,7 +659,8 @@ def get_internal_loop_list(ctwuss):
             interior_loops (list[dict]): list of dictionaries with internal loop properties
     """
 
-    interior_loops = get_bulge_and_internal_loop_list(ctwuss)[0]
+    wuss_list = load_ctwuss(ctwuss)
+    interior_loops = get_bulge_and_internal_loop_list(wuss_list)[0]
     return interior_loops
 
 
@@ -623,7 +681,6 @@ def get_internal_loop_stat(ctwuss):
         Returns:
             stat (dict): dictionary with statistics on internal loops
     """
-
 
     input_type = define_input(ctwuss)
 
@@ -650,7 +707,8 @@ def get_bulge_loop_list(ctwuss):
             bulges (list[dict]): list of dictionaries with bulge properties
     """
 
-    bulges = get_bulge_and_internal_loop_list(ctwuss)[1]
+    wuss_list = load_ctwuss(ctwuss)
+    bulges = get_bulge_and_internal_loop_list(wuss_list)[1]
     return bulges
 
 
@@ -696,9 +754,11 @@ def get_multifurcation_loop_list(ctwuss):
         Returns:
             multifurcation_loops (list[dict]): list of dictionaries with multifurcation loop properties
     """
-    
+
     wuss_list = load_ctwuss(ctwuss)
-    genome = index_minus_one(get_columns(wuss_list, [index_column_number, connection_column_number, symbol_column_number]))
+    genome = index_minus_one(
+        get_columns(wuss_list, [index_column_number, connection_column_number, symbol_column_number]))
+    genome = change_letters(genome, 2)
 
     def find_bracket(bracket, array):
         for i in range(len(array)):
@@ -709,50 +769,58 @@ def get_multifurcation_loop_list(ctwuss):
         else:
             return -1
 
-    def delete_bracket(array, index):
-        beginning = array[index]
+    def delete_bracket(array, bracket_index):
+
+        beginning = array[bracket_index]
         connection_number = beginning[1]
-        length = 0
-        r = array[index:]
+        r = array[bracket_index:]
+        start_index = 1
 
-        start_index = -2
-        last_element = [-2] * 3
-
-        for nucleotide in r:
-            if nucleotide[2] == ",":
-                start_index = nucleotide[0]
-                break
+        m_nucleotides = []
 
         for i in range(len(r)):
             nucleotide = r[i]
             if nucleotide[2] == ",":
-                length += 1
-                last_element = nucleotide
+                m_nucleotides.append(nucleotide)
+
             if nucleotide[0] == connection_number:
-                l_index = index + i
-                end_index = last_element[0]
+                last_index = bracket_index + i
                 break
 
-        l = array[:index]
-        r = array[l_index + 1:]
-        new_array = l + r
+        intervals = []
+        for i in range(len(m_nucleotides)):
 
-        multifurcation_loop = make_indexes_dict(length, start_index, end_index)
-        return [new_array, multifurcation_loop]
+            nucleotide = m_nucleotides[i]
+            index = nucleotide[0]
 
-    new_genome = genome
+            if i == 0:
+                start_index = index
+            else:
+                if index - previous_index != 1:
+                    intervals.append([start_index + 1, previous_index + 1])
+                    start_index = index
+                if i == len(m_nucleotides) - 1:
+                    intervals.append([start_index + 1, index + 1])
+
+            previous_index = index
+
+        del array[bracket_index: last_index + 1]
+
+        multifurcation_loop = {"length": len(m_nucleotides), "intervals": intervals}
+
+        return [array, multifurcation_loop]
+
     multifurcation_loops = []
-
     for bracket in ["<", "(", "[", "{"]:
         while True:
-            bracket_index = find_bracket(bracket, new_genome)
+            bracket_index = find_bracket(bracket, genome)
             if bracket_index < 0:
                 break
-            new_genome, multifurcation_loop = delete_bracket(new_genome, bracket_index)
+            genome, multifurcation_loop = delete_bracket(genome, bracket_index)
             if multifurcation_loop["length"] != 0:
                 multifurcation_loops.append(multifurcation_loop)
 
-    multifurcation_loops.sort(key=itemgetter("start_index"))
+    multifurcation_loops.sort(key=lambda x: x["intervals"][0][0])
 
     return multifurcation_loops
 
@@ -801,28 +869,43 @@ def get_stem_list(ctwuss):
     """
 
     wuss_list = load_ctwuss(ctwuss)
-    genome = index_minus_one(get_columns(wuss_list, [index_column_number, connection_column_number, symbol_column_number]))
+    genome = index_minus_one(
+        get_columns(wuss_list, [index_column_number, connection_column_number, symbol_column_number]))
 
-    brackets = ("(", "[", "<", "{")
+    pairs = [["(", ")"], ["[", "]"], ["<", ">"], ["{", "}"]]
     stem_list = []
     length = 0
 
-    for i in range(len(genome)):
-        nucleotide = genome[i]
+    intervals = []
+    for pair in pairs:
+        bracket = pair[0]
+        cl_bracket = pair[1]
+        for i in range(len(genome)):
+            nucleotide = genome[i]
 
-        if nucleotide[2] in brackets:
+            if nucleotide[2] == bracket:
+                previous_nucleotide = genome[i - 1]
+                next_nucleotide = genome[i + 1] if i != len(genome) - 1 else 0
+                if length == 0:
+                    end_index = nucleotide[1]
+                length += 1
+                if previous_nucleotide[2] != bracket:
+                    left_index = nucleotide[0]
+                if next_nucleotide[2] != bracket:
+                    intervals.append([left_index + 1, nucleotide[0] + 1])
 
-            previous_nucleotide = genome[i - 1] if i != 0 else [-1] * 3
-            if previous_nucleotide[2] not in brackets:
-                start_index = i
-                end_index = nucleotide[1]
-            length += 1
-        else:
-
-            if length != 0:
-                d = make_indexes_dict(length, start_index, end_index)
-                stem_list.append(d)
-                length = 0
+            if nucleotide[2] == cl_bracket:
+                previous_nucleotide = genome[i - 1]
+                next_nucleotide = genome[i + 1] if i != len(genome) - 1 else 0
+                length += 1
+                if previous_nucleotide[2] != cl_bracket:
+                    left_index = nucleotide[0]
+                if next_nucleotide[2] != cl_bracket:
+                    intervals.append([left_index + 1, nucleotide[0] + 1])
+                if nucleotide[0] == end_index:
+                    stem_list.append({"length": length, "intervals": intervals})
+                    length = 0
+                    intervals = []
 
     return stem_list
 
@@ -867,9 +950,10 @@ def save_stat(ctwuss_path, output_path, is_append=False):
         output_path (str): path to the output file
         is_append (bool): append output to existing file or create a new file
     """
-    
+
     lines = ["External_loops", "Hairpin_loops", "Internal_loops", "Bulge_loops", "Multifurcation_loops", "Stems"]
-    stat = [get_external_loop_stat(ctwuss_path), get_hairpin_loop_stat(ctwuss_path), get_internal_loop_stat(ctwuss_path),
+    stat = [get_external_loop_stat(ctwuss_path), get_hairpin_loop_stat(ctwuss_path),
+            get_internal_loop_stat(ctwuss_path),
             get_bulge_loop_stat(ctwuss_path), get_multifurcation_loop_stat(ctwuss_path), get_stem_stat(ctwuss_path)]
 
     if isfile(output_path) and not is_append:
@@ -896,14 +980,12 @@ def save_stat(ctwuss_path, output_path, is_append=False):
 
 
 def dotbracket2ct(input_path, output_path):
-
     """ Converts dot-bracket format file to CT format file
 
     Parameters:
         input_path (str): path to the dot-bracket file
         output_path (str): path to the output CT file
     """
-
 
     def read_dot_bracket(path):
         file = open(path, "r")
@@ -924,7 +1006,6 @@ def dotbracket2ct(input_path, output_path):
     for nucleotide in dot_bracket_list:
         if nucleotide[1] in ["(", ")"]:
             brackets_list.append(nucleotide)
-
 
     def delete_pair(brackets_list):
 
@@ -974,3 +1055,13 @@ def dotbracket2ct(input_path, output_path):
         line += f"{i + 1:>{n}}"
         output_file.write(line + "\n")
     output_file.close()
+
+
+#public
+def get_structure_type(wuss_list, position_index):
+    return wuss_list[position_index - 1][structure_column_number]
+
+
+#public
+#def get_structure_type_full(wuss_list, position_index):
+
