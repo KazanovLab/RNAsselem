@@ -1087,6 +1087,8 @@ def get_structure_type_full(wuss_list, position_index):
         structures_list = get_hairpin_loop_list(wuss_list)
     elif structure == "stem":
         structures_list = get_stem_list(wuss_list)
+    elif structure == "multifurcation_loop":
+        structures_list = get_multifurcation_loop_list(wuss_list)
 
     break_flag = False
     for structure_dictionary in structures_list:
@@ -1104,6 +1106,3 @@ def get_structure_type_full(wuss_list, position_index):
     sequences = get_sequences(wuss_list, intervals, position_index)
 
     return {"structure_type": structure, "length": length, "intervals": intervals, "sequences": sequences}
-
-
-
