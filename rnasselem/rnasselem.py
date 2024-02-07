@@ -1050,6 +1050,16 @@ def dotbracket2ct(input_path, output_path):
 
 #public
 def get_sequences(wuss_list, intervals, positon = -2):
+    """ Returns the list of nucleotide sequences for the given list of intervals.
+        
+        Parameters:
+            wuss_list (str/list): list of nucleotides with pairing info obtained from CT file using load_wuss function
+            intervals (list): list of pairs reflecting start/end positions of given intervals
+        
+        Returns:
+            sequences (list): list of nucleotide sequences
+    """
+
     sequences = []
     for interval in intervals:
         sequence = ""
@@ -1070,11 +1080,30 @@ def get_sequences(wuss_list, intervals, positon = -2):
 
 #public
 def get_structure_type(wuss_list, position_index):
+    """ Returns the type of structural element at given position.
+        
+        Parameters:
+            wuss_list (str/list): list of nucleotides with pairing info obtained from CT file using load_wuss function
+            position_index (int): genome position
+        
+        Returns:
+            element_type (string): type of the structural element
+    """
     return wuss_list[position_index - 1][structure_column_number]
 
 
 #public
 def get_structure_type_full(wuss_list, position_index):
+    """ Returns the type of structural element at given position along with other info.
+        
+        Parameters:
+            wuss_list (str/list): list of nucleotides with pairing info obtained from CT file using load_wuss function
+            position_index (int): genome position
+        
+        Returns:
+            element_info (dict): dictionart with following keys - 'structure_type', 'length', 'intervals', and 'sequences'.
+    """
+    
     structure = wuss_list[position_index - 1][structure_column_number]
 
     if structure == "external_loop":
