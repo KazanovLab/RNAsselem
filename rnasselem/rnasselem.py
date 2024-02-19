@@ -421,6 +421,24 @@ def load_ctwuss(ctwuss_path):
         return wuss_list
 
 
+# private
+def get_interval(structures_list, position_index):
+
+    break_flag = False
+    for structure_dictionary in structures_list:
+        intervals = structure_dictionary["intervals"]
+
+        for interval in intervals:
+            if interval[0] <= position_index <= interval[1]:
+                break_flag = True
+                break
+
+        if break_flag:
+            break
+
+    return structure_dictionary
+
+
 # public
 def get_total_length(wuss):
     wuss_array = load_ctwuss(wuss)
@@ -575,6 +593,64 @@ def get_external_loop_stat(ctwuss):
 
 
 # public
+def get_stem_list(ctwuss):
+    """ Returns the list of stems.
+
+        Each element of the list is dictionary with the following keys:
+        start_index: start position of stem
+        end_index: end position of stem
+        length: loop length
+
+        Parameters:
+            ctwuss (str): path to the CT-modified file or loaded file
+
+        Returns:
+            stem_list (list[dict]): list of dictionaries with stems properties
+    """
+
+    wuss_list = load_ctwuss(ctwuss)
+    genome = index_minus_one(
+        get_columns(wuss_list, [index_column_number, connection_column_number, symbol_column_number]))
+
+    pairs = [["(", ")"], ["[", "]"], ["<", ">"], ["{", "}"]]
+    stem_list = []
+    length = 0
+
+    intervals = []
+    for pair in pairs:
+        bracket = pair[0]
+        cl_bracket = pair[1]
+        for i in range(len(genome)):
+            nucleotide = genome[i]
+
+            if nucleotide[2] == bracket:
+                previous_nucleotide = genome[i - 1]
+                next_nucleotide = genome[i + 1] if i != len(genome) - 1 else 0
+                if length == 0:
+                    end_index = nucleotide[1]
+                length += 1
+                if previous_nucleotide[2] != bracket:
+                    left_index = nucleotide[0]
+                if next_nucleotide[2] != bracket:
+                    intervals.append([left_index + 1, nucleotide[0] + 1])
+
+            if nucleotide[2] == cl_bracket:
+                previous_nucleotide = genome[i - 1]
+                next_nucleotide = genome[i + 1] if i != len(genome) - 1 else 0
+                length += 1
+                if previous_nucleotide[2] != cl_bracket:
+                    left_index = nucleotide[0]
+                if next_nucleotide[2] != cl_bracket:
+                    intervals.append([left_index + 1, nucleotide[0] + 1])
+                if nucleotide[0] == end_index:
+                    stem_list.append({"length": length, "intervals": intervals})
+                    length = 0
+                    intervals = []
+
+    return stem_list
+
+
+# public
 def get_hairpin_loop_list(ctwuss):
     """ Returns the list of hairpin loops.
         
@@ -591,6 +667,7 @@ def get_hairpin_loop_list(ctwuss):
     """
 
     wuss_list = load_ctwuss(ctwuss)
+    stems = get_stem_list(wuss_list)
     structures = get_columns(wuss_list, structure_column_number)
     hairpin_loops = []
     length = 0
@@ -604,13 +681,14 @@ def get_hairpin_loop_list(ctwuss):
         else:
             if length != 0:
                 r_index = i
-                hairpin_loops.append({"length": length, "intervals": [[l_index, r_index]]})
+                stem_dictionary = get_interval(stems, l_index - 1)
+                stem_length = stem_dictionary["length"]
+                hairpin_loops.append({"length": length, "intervals": [[l_index, r_index]], "stem_length": stem_length})
                 length = 0
 
     return hairpin_loops
 
 
-# public
 def get_hairpin_loop_stat(ctwuss):
     """ Returns statistics on hairpin loops in genome.
         
@@ -847,64 +925,6 @@ def get_multifurcation_loop_stat(ctwuss):
 
 
 # public
-def get_stem_list(ctwuss):
-    """ Returns the list of stems.
-        
-        Each element of the list is dictionary with the following keys:
-        start_index: start position of stem
-        end_index: end position of stem
-        length: loop length
-        
-        Parameters:
-            ctwuss (str): path to the CT-modified file or loaded file
-        
-        Returns:
-            stem_list (list[dict]): list of dictionaries with stems properties
-    """
-
-    wuss_list = load_ctwuss(ctwuss)
-    genome = index_minus_one(
-        get_columns(wuss_list, [index_column_number, connection_column_number, symbol_column_number]))
-
-    pairs = [["(", ")"], ["[", "]"], ["<", ">"], ["{", "}"]]
-    stem_list = []
-    length = 0
-
-    intervals = []
-    for pair in pairs:
-        bracket = pair[0]
-        cl_bracket = pair[1]
-        for i in range(len(genome)):
-            nucleotide = genome[i]
-
-            if nucleotide[2] == bracket:
-                previous_nucleotide = genome[i - 1]
-                next_nucleotide = genome[i + 1] if i != len(genome) - 1 else 0
-                if length == 0:
-                    end_index = nucleotide[1]
-                length += 1
-                if previous_nucleotide[2] != bracket:
-                    left_index = nucleotide[0]
-                if next_nucleotide[2] != bracket:
-                    intervals.append([left_index + 1, nucleotide[0] + 1])
-
-            if nucleotide[2] == cl_bracket:
-                previous_nucleotide = genome[i - 1]
-                next_nucleotide = genome[i + 1] if i != len(genome) - 1 else 0
-                length += 1
-                if previous_nucleotide[2] != cl_bracket:
-                    left_index = nucleotide[0]
-                if next_nucleotide[2] != cl_bracket:
-                    intervals.append([left_index + 1, nucleotide[0] + 1])
-                if nucleotide[0] == end_index:
-                    stem_list.append({"length": length, "intervals": intervals})
-                    length = 0
-                    intervals = []
-
-    return stem_list
-
-
-# public
 def get_stem_stat(ctwuss):
     """ Returns statistics on stems in genome.
         
@@ -1119,19 +1139,15 @@ def get_structure_type_full(wuss_list, position_index):
     elif structure == "multifurcation_loop":
         structures_list = get_multifurcation_loop_list(wuss_list)
 
-    break_flag = False
-    for structure_dictionary in structures_list:
-        intervals = structure_dictionary["intervals"]
-        length = structure_dictionary["length"]
+    structure_dictionary = get_interval(structures_list, position_index)
 
-        for interval in intervals:
-            if interval[0] <= position_index <= interval[1]:
-                break_flag = True
-                break
+    sequences = get_sequences(wuss_list, structure_dictionary["intervals"], position_index)
 
-        if break_flag:
-            break
+    final_dict = {"structure_type": structure, "length": structure_dictionary["length"],
+                  "intervals": structure_dictionary["intervals"], "sequences": sequences}
+    if structure == "hairpin_loop":
+        final_dict["stem_length"] = structure_dictionary["stem_length"]
 
-    sequences = get_sequences(wuss_list, intervals, position_index)
+    return final_dict
 
-    return {"structure_type": structure, "length": length, "intervals": intervals, "sequences": sequences}
+
