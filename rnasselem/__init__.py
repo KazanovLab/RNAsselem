@@ -18,3 +18,6 @@ from .rnasselem import get_stem_list
 from .rnasselem import get_stem_stat
 from .rnasselem import save_stat
 from .rnasselem import dotbracket2ct
+from .rnasselem import get_structure_type_full
+from .rnasselem import get_structure_type
+from .rnasselem import get_sequences
