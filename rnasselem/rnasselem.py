@@ -235,18 +235,18 @@ def ct2wuss(ctPath, outPath):
 
 
 # public
-def get_sequences(wuss_list, intervals, positon=-2):
+def get_sequences(ctwuss, intervals, positon=-2):
     """ Returns the list of nucleotide sequences for the given list of intervals.
 
         Parameters:
-            wuss_list (str/list): list of nucleotides with pairing info obtained from CT file using load_wuss function
+            ctwuss (str/list): path to the CT-modified file or loaded file
             intervals (list): list of pairs reflecting start/end positions of given intervals
 
         Returns:
             sequences (list): list of nucleotide sequences
     """
 
-    wuss_list = load_ctwuss(wuss_list)
+    wuss_list = load_ctwuss(ctwuss)
     sequences = []
     for interval in intervals:
         sequence = ""
@@ -1093,33 +1093,33 @@ def dotbracket2ct(input_path, output_path):
 
 
 # public
-def get_structure_type(wuss_list, position_index):
+def get_structure_type(ctwuss, position_index):
     """ Returns the type of structural element at given position.
         
         Parameters:
-            wuss_list (str/list): list of nucleotides with pairing info obtained from CT file using load_wuss function
+            ctwuss (str/list): path to the CT-modified file or loaded file
             position_index (int): genome position
         
         Returns:
             element_type (string): type of the structural element
     """
-    wuss_list = load_ctwuss(wuss_list)
+    wuss_list = load_ctwuss(ctwuss)
     return wuss_list[position_index - 1][structure_column_number]
 
 
 # public
-def get_structure_type_full(wuss_list, position_index):
+def get_structure_type_full(ctwuss, position_index):
     """ Returns the type of structural element at given position along with other info.
         
         Parameters:
-            wuss_list (str/list): list of nucleotides with pairing info obtained from CT file using load_wuss function
+            ctwuss (str/list): path to the CT-modified file or loaded file
             position_index (int): genome position
         
         Returns:
             element_info (dict): dictionart with following keys - 'structure_type', 'length', 'intervals', and 'sequences'.
     """
 
-    wuss_list = load_ctwuss(wuss_list)
+    wuss_list = load_ctwuss(ctwuss)
     structure = wuss_list[position_index - 1][structure_column_number]
 
     if structure == "external_loop":
