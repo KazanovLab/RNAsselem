@@ -329,7 +329,7 @@ def get_bulge_and_internal_loop_list(wuss_list):
 
     for i in range(len(wuss_list)):
         nucleotide = wuss_list[i]
-        previous_nucleotide = wuss_list[i - 1] if i != 0 else [[], [], []]
+        previous_nucleotide = wuss_list[i - 1] if i != 0 else 8*[-3]
 
         if nucleotide[symbol_column_number] in brackets:
 
@@ -634,10 +634,10 @@ def get_stem_list(ctwuss):
         cl_bracket = pair[1]
         for i in range(len(wuss_list)):
             nucleotide = wuss_list[i]
-
+            
             if nucleotide[symbol_column_number] == bracket:
                 previous_nucleotide = wuss_list[i - 1]
-                next_nucleotide = wuss_list[i + 1] if i != len(wuss_list) - 1 else 0
+                next_nucleotide = wuss_list[i + 1] if i != len(wuss_list) - 1 else 8*[-3]
                 if length == 0:
                     end_index = nucleotide[connection_column_number] - 1
                 length += 1
@@ -648,7 +648,7 @@ def get_stem_list(ctwuss):
 
             if nucleotide[symbol_column_number] == cl_bracket:
                 previous_nucleotide = wuss_list[i - 1]
-                next_nucleotide = wuss_list[i + 1] if i != len(wuss_list) - 1 else 0
+                next_nucleotide = wuss_list[i + 1] if i != len(wuss_list) - 1 else 8*[-3]
                 length += 1
                 if previous_nucleotide[symbol_column_number] != cl_bracket:
                     left_index = nucleotide[index_column_number] - 1
