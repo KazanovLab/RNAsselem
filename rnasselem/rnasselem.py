@@ -329,7 +329,7 @@ def get_bulge_and_internal_loop_list(wuss_list):
 
     for i in range(len(wuss_list)):
         nucleotide = wuss_list[i]
-        previous_nucleotide = wuss_list[i - 1] if i != 0 else [[], [], []]
+        previous_nucleotide = wuss_list[i - 1] if i != 0 else 8*[-3]
 
         if nucleotide[symbol_column_number] in brackets:
 
