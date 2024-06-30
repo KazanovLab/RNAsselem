@@ -431,6 +431,32 @@ def load_ctwuss(ctwuss_path):
 
         return wuss_list
 
+#private
+def pseudoknot_to_symbol(ctwuss_path, output_name):
+    wuss_list = load_ctwuss(ctwuss_path)
+    output_file = open(output_name, "w")
+    input_file = open(ctwuss_path, "r")
+    name = input_file.readline()
+    output_file.write(name)
+    for i in wuss_list:
+        line = input_file.readline()
+        s = i[structure_column_number]
+        new = i[symbol_column_number]
+
+        if s == "external_loop":
+            new = ":"
+        elif s == "multifurcation_loop":
+            new = ","
+        elif s == "hairpin_loop":
+            new = "_"
+        elif s == "bulge_loop" or s == "internal_loop":
+            new = "-"
+
+        line = line[:-2] + new + "\n"
+        output_file.write(line)
+
+    return 0
+
 
 # private
 def get_interval(structures_list, position_index):
@@ -879,25 +905,27 @@ def get_multifurcation_loop_list(ctwuss):
                 last_index = bracket_index + i
                 break
 
-        intervals = []
-        for i in range(len(m_nucleotides)):
+        if len(m_nucleotides) == 1:
+            intervals = [[m_nucleotides[0][0], m_nucleotides[0][0]]]
+        else:
+            intervals = []
+            for i in range(len(m_nucleotides)):
 
-            nucleotide = m_nucleotides[i]
-            index = nucleotide[index_column_number] - 1
+                nucleotide = m_nucleotides[i]
+                index = nucleotide[index_column_number] - 1
 
-            if i == 0:
-                start_index = index
-            else:
-                if index - previous_index != 1:
-                    intervals.append([start_index + 1, previous_index + 1])
+                if i == 0:
                     start_index = index
-                if i == len(m_nucleotides) - 1:
-                    intervals.append([start_index + 1, index + 1])
+                else:
+                    if index - previous_index != 1:
+                        intervals.append([start_index + 1, previous_index + 1])
+                        start_index = index
+                    if i == len(m_nucleotides) - 1:
+                        intervals.append([start_index + 1, index + 1])
 
-            previous_index = index
+                previous_index = index
 
         del array[bracket_index: last_index + 1]
-
         multifurcation_loop = get_structure_dict(wuss_list, len(m_nucleotides), intervals)
 
         return [array, multifurcation_loop]
@@ -911,7 +939,6 @@ def get_multifurcation_loop_list(ctwuss):
             wuss_list_copy, multifurcation_loop = delete_bracket(wuss_list_copy, bracket_index)
             if multifurcation_loop["length"] != 0:
                 multifurcation_loops.append(multifurcation_loop)
-
     multifurcation_loops.sort(key=lambda x: x["intervals"][0][0])
 
     return multifurcation_loops
@@ -1145,3 +1172,5 @@ def get_structure_type_full(ctwuss, position_index):
         final_dict["stem_length"] = structure_dictionary["stem_length"]
 
     return final_dict
+
+
