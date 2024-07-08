@@ -22,6 +22,13 @@ or
 
 ## Quick start
 
+Convert dot-bracket file to CT file:
+
+```
+import rnasselem as r
+r.dotbracket2ct("/path/to/dotbracket/file","/path/to/ct/file")
+```
+
 Convert CT file to WUSS file:
 
 ```
@@ -39,14 +46,22 @@ r.ct2ctwuss("/path/to/ct/file","/path/to/wuss/file")
 Load CT-WUSS file for further processing:
 ```
 import rnasselem as r
-ctwuss_file = r.load_ctwuss("/path/to/ctwuss/file")
+ctwuss = r.load_ctwuss("/path/to/ctwuss/file")
 ```
 
 Get the list of hairpin loops in the genome:
 ```
 import rnasselem as r
-ctwuss_file = r.load_ctwuss("/path/to/ctwuss/file")
-hairpin_list = r.get_hairpin_loop_list(ctwuss_file)
+ctwuss = r.load_ctwuss("/path/to/ctwuss/file")
+hairpin_list = r.get_hairpin_loop_list(ctwuss)
+```
+
+Get the type of structural element at a specific position:
+```
+import rnasselem as r
+ctwuss = r.load_ctwuss("/path/to/ctwuss/file")
+genome_position = 1000
+element_type = get_structure_type(ctwuss, genome_position)
 ```
 
 Get statistics on hairpin loops in the genome:
