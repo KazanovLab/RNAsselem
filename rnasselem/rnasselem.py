@@ -1134,7 +1134,7 @@ def get_structure_type_full(ctwuss, position_index):
             position_index (int): genome position
         
         Returns:
-            element_info (dict): dictionary with following keys
+            element_info (dict): dictionary with the following keys:
             - structure_type - type of the secondary structure element,
             - length - element length,
             - intervals - list of the start/stop positions,
