@@ -564,9 +564,9 @@ def get_external_loop_list(ctwuss):
 
        Returns:
             external_loops (list[dict]): list of the external loop properties, including:
-                length - element length,
-                intervals - list of the start/stop positions,
-                sequences - DNA sequences at the intervals.
+                - length - element length,
+                - intervals - list of the start/stop positions,
+                - sequences - DNA sequences at the intervals.
     """
 
     wuss_list = load_ctwuss(ctwuss)
