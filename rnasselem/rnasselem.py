@@ -563,7 +563,10 @@ def get_external_loop_list(ctwuss):
         ctwuss (str/list): path to the CT-modified file or loaded file
 
        Returns:
-        external_loops (list[dict]): list of dictionaries with external loop properties
+        external_loops (list[dict]): list of the external loop properties, including:
+         length - element length
+         intervals - list of the start/stop positions
+         sequences - DNA sequences at the intervals
     """
 
     wuss_list = load_ctwuss(ctwuss)
@@ -646,7 +649,11 @@ def get_stem_list(ctwuss):
             ctwuss (str): path to the CT-modified file or loaded file
 
         Returns:
-            stem_list (list[dict]): list of dictionaries with stems properties
+            stem_list (list[dict]): list of the with stem properties, including:
+             length - element length
+             intervals - list of the start/stop positions
+             sequences - DNA sequences at the intervals
+
     """
 
     wuss_list = load_ctwuss(ctwuss)
@@ -704,7 +711,11 @@ def get_hairpin_loop_list(ctwuss):
             ctwuss (str/list): path to the CT-modified file or loaded file
         
         Returns:
-            hairpin_loops (list[dict]): list of dictionaries with hairpin loop properties
+            hairpin_loops (list[dict]): list of the hairpin loop properties, including:
+              length - element length
+              intervals - list of the start/stop positions
+              sequences - DNA sequences at the intervals
+              stem_length - length of the hairpin's stem
     """
 
     wuss_list = load_ctwuss(ctwuss)
@@ -772,7 +783,10 @@ def get_internal_loop_list(ctwuss):
             ctwuss (str/list): path to the CT-modified file or loaded file
         
         Returns:
-            interior_loops (list[dict]): list of dictionaries with internal loop properties
+            interior_loops (list[dict]): list of the internal loop properties, including:
+             length - element length
+             intervals - list of the start/stop positions
+             sequences - DNA sequences at the intervals
     """
 
     wuss_list = load_ctwuss(ctwuss)
@@ -822,7 +836,10 @@ def get_bulge_loop_list(ctwuss):
             ctwuss (str/list): path to the CT-modified file or loaded file
         
         Returns:
-            bulges (list[dict]): list of dictionaries with bulge properties
+            bulges (list[dict]): list of the bulge properties, including:
+             length - element length
+             intervals - list of the start/stop positions
+             sequences - DNA sequences at the intervals
     """
 
     wuss_list = load_ctwuss(ctwuss)
@@ -872,7 +889,11 @@ def get_multifurcation_loop_list(ctwuss):
             ctwuss (str/list): path to the CT-modified file or loaded file
         
         Returns:
-            multifurcation_loops (list[dict]): list of dictionaries with multifurcation loop properties
+            multifurcation_loops (list[dict]): list of the multifurcation loop properties, including:
+             length - element length
+             intervals - list of the start/stop positions
+             sequences - DNA sequences at the intervals
+
     """
 
     wuss_list = load_ctwuss(ctwuss)
@@ -1136,7 +1157,7 @@ def get_structure_type(ctwuss, position_index):
 
 # public
 def get_structure_type_full(ctwuss, position_index):
-    """ Returns the type of structural element at given position along with other info.
+    """ Returns the type of structural element at given 1-based position along with other info.
         
         Parameters:
             ctwuss (str/list): path to the CT-modified file or loaded file
