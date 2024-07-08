@@ -1142,7 +1142,7 @@ def dotbracket2ct(input_path, output_path):
 
 # public
 def get_structure_type(ctwuss, position_index):
-    """ Returns the type of structural element at given position.
+    """ Returns the type of structural element at given 1-based position.
         
         Parameters:
             ctwuss (str/list): path to the CT-modified file or loaded file
