@@ -563,10 +563,10 @@ def get_external_loop_list(ctwuss):
         ctwuss (str/list): path to the CT-modified file or loaded file
 
        Returns:
-        external_loops (list[dict]): list of the external loop properties, including:
-         length - element length
-         intervals - list of the start/stop positions
-         sequences - DNA sequences at the intervals
+            external_loops (list[dict]): list of the external loop properties, including:
+                length - element length
+                intervals - list of the start/stop positions
+                sequences - DNA sequences at the intervals
     """
 
     wuss_list = load_ctwuss(ctwuss)
