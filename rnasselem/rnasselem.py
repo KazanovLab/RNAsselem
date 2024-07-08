@@ -1135,10 +1135,10 @@ def get_structure_type_full(ctwuss, position_index):
         
         Returns:
             element_info (dict): dictionary with the following keys:
-            - structure_type - type of the secondary structure element,
-            - length - element length,
-            - intervals - list of the start/stop positions,
-            - sequences - DNA sequences at the intervals.
+                - structure_type - type of the secondary structure element,
+                - length - element length,
+                - intervals - list of the start/stop positions,
+                - sequences - DNA sequences at the intervals.
     """
 
     wuss_list = load_ctwuss(ctwuss)
