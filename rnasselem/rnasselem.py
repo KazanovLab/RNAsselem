@@ -860,9 +860,9 @@ def get_multifurcation_loop_list(ctwuss):
         
         Returns:
             multifurcation_loops (list[dict]): list of the multifurcation loop properties, including:
-             - length - element length
-             - intervals - list of the start/stop positions
-             - sequences - DNA sequences at the intervals
+             - length - element length,
+             - intervals - list of the start/stop positions,
+             - sequences - DNA sequences at the intervals.
 
     """
 
@@ -1127,14 +1127,18 @@ def get_structure_type(ctwuss, position_index):
 
 # public
 def get_structure_type_full(ctwuss, position_index):
-    """ Returns the type of structural element at given 1-based position along with other info.
+    """ Returns a type of the structural element at a given 1-based position along with other info.
         
         Parameters:
             ctwuss (str/list): path to the CT-modified file or loaded file
             position_index (int): genome position
         
         Returns:
-            element_info (dict): dictionart with following keys - 'structure_type', 'length', 'intervals', and 'sequences'.
+            element_info (dict): dictionary with following keys
+            - structure_type - type of the secondary structure element,
+            - length - element length,
+            - intervals - list of the start/stop positions,
+            - sequences - DNA sequences at the intervals.
     """
 
     wuss_list = load_ctwuss(ctwuss)
