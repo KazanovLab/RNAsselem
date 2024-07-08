@@ -552,13 +552,8 @@ def statistics(results_list):
 
 # public
 def get_external_loop_list(ctwuss):
-    """ Returns the list of external loops.
-        
-        Each element of the list is dictionary with the following keys:
-        start_index: start position of external loop,
-        end_index: end position of external loop,
-        length: loop length
-       
+    """ Returns a list of external loops with a dictionary of their properties.
+               
        Parameters:
         ctwuss (str/list): path to the CT-modified file or loaded file
 
@@ -638,21 +633,16 @@ def get_external_loop_stat(ctwuss):
 
 # public
 def get_stem_list(ctwuss):
-    """ Returns the list of stems.
-
-        Each element of the list is dictionary with the following keys:
-        start_index: start position of stem
-        end_index: end position of stem
-        length: loop length
+    """ Returns a list of stems with a dictionary of their properties.
 
         Parameters:
             ctwuss (str): path to the CT-modified file or loaded file
 
         Returns:
             stem_list (list[dict]): list of the with stem properties, including:
-             length - element length
-             intervals - list of the start/stop positions
-             sequences - DNA sequences at the intervals
+             - length - element length,
+             - intervals - list of the start/stop positions,
+             - sequences - DNA sequences at the intervals.
 
     """
 
@@ -700,22 +690,17 @@ def get_stem_list(ctwuss):
 
 # public
 def get_hairpin_loop_list(ctwuss):
-    """ Returns the list of hairpin loops.
-        
-        Each element of the list is dictionary with the following keys:
-        start_index: start position of hairpin loop
-        end_index: end position of hairpin loop
-        length: loop length
+    """ Returns a list of hairpin loops with a dictionary of their properties.
         
         Parameters:
             ctwuss (str/list): path to the CT-modified file or loaded file
         
         Returns:
             hairpin_loops (list[dict]): list of the hairpin loop properties, including:
-              length - element length
-              intervals - list of the start/stop positions
-              sequences - DNA sequences at the intervals
-              stem_length - length of the hairpin's stem
+              - length - element length,
+              - intervals - list of the start/stop positions,
+              - sequences - DNA sequences at the intervals,
+              - stem_length - length of the hairpin's stem.
     """
 
     wuss_list = load_ctwuss(ctwuss)
@@ -772,21 +757,16 @@ def get_hairpin_loop_stat(ctwuss):
 
 # public
 def get_internal_loop_list(ctwuss):
-    """ Returns the list of internal loops.
-        
-        Each element of the list is dictionary with the following keys:
-        start_index: start position of internal loop
-        end_index: end position of internal loop
-        length: loop length
+    """ Returns a list of internal loops with a dictionary of their properties.
         
         Parameters:
             ctwuss (str/list): path to the CT-modified file or loaded file
         
         Returns:
             interior_loops (list[dict]): list of the internal loop properties, including:
-             length - element length
-             intervals - list of the start/stop positions
-             sequences - DNA sequences at the intervals
+             - length - element length
+             - intervals - list of the start/stop positions
+             - sequences - DNA sequences at the intervals
     """
 
     wuss_list = load_ctwuss(ctwuss)
@@ -825,21 +805,16 @@ def get_internal_loop_stat(ctwuss):
 
 # public
 def get_bulge_loop_list(ctwuss):
-    """ Returns the list of bulges.
-        
-        Each element of the list is dictionary with the following keys:
-        start_index: start position of bulge
-        end_index: end position of bulge
-        length: loop length
+    """ Returns a list of bulge loops with a dictionary of their properties.
         
         Parameters:
             ctwuss (str/list): path to the CT-modified file or loaded file
         
         Returns:
             bulges (list[dict]): list of the bulge properties, including:
-             length - element length
-             intervals - list of the start/stop positions
-             sequences - DNA sequences at the intervals
+             - length - element length
+             - intervals - list of the start/stop positions
+             - sequences - DNA sequences at the intervals
     """
 
     wuss_list = load_ctwuss(ctwuss)
@@ -878,21 +853,16 @@ def get_bulge_loop_stat(ctwuss):
 
 # public
 def get_multifurcation_loop_list(ctwuss):
-    """ Returns the list of multifurcation loops.
-        
-        Each element of the list is dictionary with the following keys:
-        start_index: start position of multifurcation loop
-        end_index: end position of multifurcation loop
-        length: loop length
+    """ Returns a list of multifurcation loops with a dictionary of their properties.
         
         Parameters:
             ctwuss (str/list): path to the CT-modified file or loaded file
         
         Returns:
             multifurcation_loops (list[dict]): list of the multifurcation loop properties, including:
-             length - element length
-             intervals - list of the start/stop positions
-             sequences - DNA sequences at the intervals
+             - length - element length
+             - intervals - list of the start/stop positions
+             - sequences - DNA sequences at the intervals
 
     """
 
