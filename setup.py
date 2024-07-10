@@ -7,6 +7,7 @@ setup(
  author='Fedor Kazanov, Evgenii Matveev, Gennady Ponomarev, Dmitry Ivankov, Marat Kazanov',
  author_email='mkazanov@gmail.com',
  url='https://github.com/KazanovLab/RNAsselem',
+ install_requires=["pytest"],
  packages=['rnasselem']
 )
  
