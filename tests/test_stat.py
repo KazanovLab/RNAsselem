@@ -1,5 +1,5 @@
 import pytest
-from .rnasselem import save_stat
+from rnasselem import save_stat
 import os
 
 output_path = "test_result1.txt"
