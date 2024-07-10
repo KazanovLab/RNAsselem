@@ -326,6 +326,7 @@ def get_bulge_and_internal_loop_list(wuss_list):
     interior_loops = []
     bulge_loops = []
     used = []
+    left_index = -1
 
     for i in range(len(wuss_list)):
         nucleotide = wuss_list[i]
@@ -650,6 +651,7 @@ def get_stem_list(ctwuss):
     pairs = [["(", ")"], ["[", "]"], ["<", ">"], ["{", "}"]]
     stem_list = []
     length = 0
+    left_index = -1
 
     intervals = []
     for pair in pairs:
@@ -884,6 +886,7 @@ def get_multifurcation_loop_list(ctwuss):
         connection_number = beginning[connection_column_number] - 1
         r = array[bracket_index:]
         start_index = 1
+        previous_index = -1
 
         m_nucleotides = []
 
