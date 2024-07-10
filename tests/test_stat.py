@@ -3,9 +3,9 @@ from rnasselem import save_stat
 import os
 
 output_path = "test_result1.txt"
-path_1 = r"SARS-CoV-2_34168138_tests.ctwuss"
-path_2 = r"HCV_H77_1725_test.ctwuss"
-path_3 = r"DENV_test.ctwuss"
+path_1 = r"tests/SARS-CoV-2_34168138_tests.ctwuss"
+path_2 = r"tests/HCV_H77_1725_test.ctwuss"
+path_3 = r"tests/DENV_test.ctwuss"
 result_1 = [6, 18, 24, 22, 3, 21]
 result_2 = [7, 20, 28, 25, 6, 26]
 result_3 = [13, 31, 18, 12, 8, 39]
