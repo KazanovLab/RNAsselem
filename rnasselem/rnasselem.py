@@ -992,6 +992,65 @@ def get_stem_stat(ctwuss):
     return statistics(elements)
 
 
+#public
+def get_pseudoknot_list(ctwuss):
+
+    wuss_list = load_ctwuss(ctwuss)
+    wuss_list_copy = deepcopy(wuss_list)
+    pseudoknot_dict = {}
+    previous_symbol = "0"
+    start_index = -1
+
+    for nucleotide in wuss_list_copy:
+
+        symbol = nucleotide[symbol_column_number].lower()
+
+        if not symbol.isalpha():
+
+            if previous_symbol.isalpha():
+                interval = [start_index, nucleotide[index_column_number] - 1]
+                pseudoknot_dict[previous_symbol]["intervals"].append(interval)
+
+        else:
+            if symbol not in pseudoknot_dict:
+                pseudoknot_dict[symbol] = {"length": 0, "intervals": []}
+
+            if previous_symbol.isalpha():
+
+                if previous_symbol != symbol:
+                    interval = [start_index, nucleotide[index_column_number] - 1]
+                    pseudoknot_dict[previous_symbol]["intervals"].append(interval)
+                    start_index = nucleotide[index_column_number]
+
+            else:
+                start_index = nucleotide[index_column_number]
+
+            pseudoknot_dict[symbol]["length"] += 1
+
+        previous_symbol = symbol
+
+    return pseudoknot_dict
+
+
+def get_pseudoknot_count(ctwuss):
+
+    wuss_list = load_ctwuss(ctwuss)
+    wuss_list_copy = deepcopy(wuss_list)
+    count = 0
+    previous_symbol = "0"
+
+    for nucleotide in wuss_list_copy:
+        symbol = nucleotide[symbol_column_number]
+
+        if symbol.isalpha():
+            if not previous_symbol.isalpha():
+                count += 1
+
+        previous_symbol = symbol
+
+    return int(count/2)
+
+
 # public
 def save_stat(ctwuss_path, output_path, is_append=False):
     """ Saves statistics for all types of structural elements to file.
@@ -1167,5 +1226,4 @@ def get_structure_type_full(ctwuss, position_index):
         final_dict["stem_length"] = structure_dictionary["stem_length"]
 
     return final_dict
-
 
