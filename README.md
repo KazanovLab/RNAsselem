@@ -101,4 +101,4 @@ The folder `Viral_Structure_Collection` contains a collection of secondary struc
 Please use the [GitHub issue tracker](https://github.com/KazanovLab/RNAsselem/issues) to report bugs or suggest features.
 
 ## Citing
-to be submitted
+Kazanov FM, Matveev EV, Ponomarev GV, Ivankov DN, Kazanov MD. Analysis of the abundance and diversity of RNA secondary structure elements in RNA viruses using the RNAsselem Python package. Sci Rep. 2024 Nov 19;14(1):28587. doi: 10.1038/s41598-024-80240-5. 
