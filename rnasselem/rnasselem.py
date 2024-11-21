@@ -1105,8 +1105,8 @@ def dotbracket2ct(input_path, output_path):
     def read_dot_bracket(path):
         file = open(path, "r")
         name = file.readline()
-        letters = list(file.readline())
-        symbols = list(file.readline())
+        letters = list(file.readline().strip())
+        symbols = list(file.readline().strip())
         n = len(letters)
         dot_bracket_list = []
 
