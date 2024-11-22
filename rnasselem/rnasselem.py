@@ -1114,7 +1114,7 @@ def dotbracket2ct(input_path, output_path):
             nucleotide = [i + 1, symbols[i], letters[i]]
             dot_bracket_list.append(nucleotide)
 
-        return [name, dot_bracket_list[:-1]]
+        return [name, dot_bracket_list]
 
     name, dot_bracket_list = read_dot_bracket(input_path)
     brackets_list = []
