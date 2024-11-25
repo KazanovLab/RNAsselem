@@ -1,4 +1,5 @@
 import copy
+import os.path
 import sys
 from math import sqrt
 from operator import itemgetter
@@ -265,7 +266,7 @@ def get_sequences(ctwuss, intervals, positon=-2):
     return sequences
 
 
-#private
+# private
 def get_structure_dict(wuss_list, length, intervals):
     sequences = get_sequences(wuss_list, intervals)
     structure_dict = {"length": length, "intervals": intervals, "sequences": sequences}
@@ -318,7 +319,6 @@ def change_letters(wuss_list, structure_column_index):
 
 # private
 def get_bulge_and_internal_loop_list(wuss_list):
-
     brackets = ["<", "(", "[", "{"]
     cl_brackets = [">", ")", "]", "}"]
     loops = ["bulge_loop", "internal_loop", "indefinite_loop"]
@@ -330,7 +330,7 @@ def get_bulge_and_internal_loop_list(wuss_list):
 
     for i in range(len(wuss_list)):
         nucleotide = wuss_list[i]
-        previous_nucleotide = wuss_list[i - 1] if i != 0 else 8*[-3]
+        previous_nucleotide = wuss_list[i - 1] if i != 0 else 8 * [-3]
 
         if nucleotide[symbol_column_number] in brackets:
 
@@ -432,7 +432,8 @@ def load_ctwuss(ctwuss_path):
 
         return wuss_list
 
-#private
+
+# private
 def pseudoknot_to_symbol(ctwuss_path, output_name):
     wuss_list = load_ctwuss(ctwuss_path)
     output_file = open(output_name, "w")
@@ -461,7 +462,6 @@ def pseudoknot_to_symbol(ctwuss_path, output_name):
 
 # private
 def get_interval(structures_list, position_index):
-
     break_flag = False
     for structure_dictionary in structures_list:
         intervals = structure_dictionary["intervals"]
@@ -566,7 +566,7 @@ def get_external_loop_list(ctwuss):
     """
 
     wuss_list = load_ctwuss(ctwuss)
-    external_loops = []                                                                      
+    external_loops = []
     length = 0
 
     for i in range(len(wuss_list)):
@@ -659,10 +659,10 @@ def get_stem_list(ctwuss):
         cl_bracket = pair[1]
         for i in range(len(wuss_list)):
             nucleotide = wuss_list[i]
-            
+
             if nucleotide[symbol_column_number] == bracket:
                 previous_nucleotide = wuss_list[i - 1]
-                next_nucleotide = wuss_list[i + 1] if i != len(wuss_list) - 1 else 8*[-3]
+                next_nucleotide = wuss_list[i + 1] if i != len(wuss_list) - 1 else 8 * [-3]
                 if length == 0:
                     end_index = nucleotide[connection_column_number] - 1
                 length += 1
@@ -673,7 +673,7 @@ def get_stem_list(ctwuss):
 
             if nucleotide[symbol_column_number] == cl_bracket:
                 previous_nucleotide = wuss_list[i - 1]
-                next_nucleotide = wuss_list[i + 1] if i != len(wuss_list) - 1 else 8*[-3]
+                next_nucleotide = wuss_list[i + 1] if i != len(wuss_list) - 1 else 8 * [-3]
                 length += 1
                 if previous_nucleotide[symbol_column_number] != cl_bracket:
                     left_index = nucleotide[index_column_number] - 1
@@ -995,9 +995,8 @@ def get_stem_stat(ctwuss):
     return statistics(elements)
 
 
-#public
+# public
 def get_pseudoknot_list(ctwuss):
-
     wuss_list = load_ctwuss(ctwuss)
     wuss_list_copy = deepcopy(wuss_list)
     pseudoknot_dict = {}
@@ -1036,7 +1035,6 @@ def get_pseudoknot_list(ctwuss):
 
 
 def get_pseudoknot_count(ctwuss):
-
     wuss_list = load_ctwuss(ctwuss)
     wuss_list_copy = deepcopy(wuss_list)
     count = 0
@@ -1051,7 +1049,7 @@ def get_pseudoknot_count(ctwuss):
 
         previous_symbol = symbol
 
-    return int(count/2)
+    return int(count / 2)
 
 
 # public
@@ -1229,4 +1227,91 @@ def get_structure_type_full(ctwuss, position_index):
         final_dict["stem_length"] = structure_dictionary["stem_length"]
 
     return final_dict
+
+
+# private
+def ss_prediction(output_dir, position_index, fasta_path, input_string):
+    if position_index <= 100:
+        print("position_index must be more than 100")
+        return 1
+    if fasta_path == "" and input_string == "":
+        print("fasta_path or input_string must be entered")
+        return 1
+    if fasta_path != "" and input_string != "":
+        print("either fasta_path or input_string must be entered")
+        return 1
+    elif fasta_path != "":
+        type = "file"
+    elif input_string != "":
+        type = "string"
+
+    if not os.path.exists(output_dir):
+        os.mkdir(output_dir)
+
+    if type == "string":
+        subdirectory_name = input_string[:10] + "_" + str(position_index)
+    else:
+        subdirectory_name = os.path.splitext(os.path.basename(fasta_path))[0] + "_" + str(position_index)
+
+    results_dir = output_dir + "\\" + subdirectory_name
+    if not os.path.exists(results_dir):
+        os.mkdir(results_dir)
+
+    trunc_file_path = results_dir + "\\" + subdirectory_name + "_trunc.fasta"
+    trunc_file = open(trunc_file_path, "w")
+
+    if type == "string":
+        if position_index >= len(input_string) - 99:
+            print("position_index must be less than string length - 99")
+            return 1
+        trunc_file.write(">" + subdirectory_name + "\n")
+        position_index -= 1
+        trunc_file.write(input_string[position_index - 100: position_index + 101])
+    else:
+        input_file = open(fasta_path, "r")
+        id = input_file.readline().strip()
+        trunc_file.write(id + "\n")
+        string = ""
+        for line in input_file.readlines():
+            string += line
+        string = string.replace("\n", "")
+        if position_index >= len(string) - 99:
+            print("position_index must be less than string length - 99")
+            return 1
+        position_index -= 1
+        trunc_file.write(string[position_index - 100: position_index + 101])
+        input_file.close()
+    trunc_file.close()
+
+    outfile_path = rf"{results_dir}\{subdirectory_name}.dot_bracket"
+    os.system(rf"RNAfold.exe --infile={trunc_file_path} > {outfile_path}")
+
+    outfile = open(outfile_path, "r+")
+    text = outfile.read()
+    while text[-1] != "(":
+        text = text[:-1]
+    text = text[:-1]
+    outfile.seek(0)
+    outfile.write(text)
+    outfile.truncate()
+    outfile.close()
+    ct_file_path = rf"{results_dir}\{subdirectory_name}.ct"
+    dotbracket2ct(outfile_path, ct_file_path)
+    ctwuss_file_path = rf"{results_dir}\{subdirectory_name}.ctwuss"
+    ct2ctwuss(ct_file_path, ctwuss_file_path)
+    print(ctwuss_file_path, results_dir, subdirectory_name)
+    return ctwuss_file_path
+
+
+# public
+def get_predicted_structure_type(output_dir, position_index, fasta_path="", input_string=""):
+    ctwuss = ss_prediction(output_dir, position_index, fasta_path, input_string)
+    return get_structure_type(ctwuss, 101)
+
+
+# public
+def get_predicted_structure_type_full(output_dir, position_index, fasta_path="", input_string=""):
+    ctwuss = ss_prediction(output_dir, position_index, fasta_path, input_string)
+    return get_structure_type_full(ctwuss, 101)
+
 
