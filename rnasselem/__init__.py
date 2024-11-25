@@ -22,3 +22,5 @@ from .rnasselem import get_structure_type_full
 from .rnasselem import get_structure_type
 from .rnasselem import get_sequences
 from .rnasselem import get_pseudoknot_count
+from .rnasselem import get_predicted_structure_type
+from .rnasselem import get_predicted_structure_type_full

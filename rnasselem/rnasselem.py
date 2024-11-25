@@ -1313,5 +1313,3 @@ def get_predicted_structure_type(output_dir, position_index, fasta_path="", inpu
 def get_predicted_structure_type_full(output_dir, position_index, fasta_path="", input_string=""):
     ctwuss = ss_prediction(output_dir, position_index, fasta_path, input_string)
     return get_structure_type_full(ctwuss, 101)
-
-
