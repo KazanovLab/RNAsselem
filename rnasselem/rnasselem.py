@@ -1284,7 +1284,7 @@ def ss_prediction(output_dir, position_index, fasta_path, input_string):
     trunc_file.close()
 
     outfile_path = os.path.join(f"{results_dir}",f"{subdirectory_name}.db")
-    os.system(f"RNAfold.exe --infile={trunc_file_path} > {outfile_path}")
+    os.system(f"RNAfold --infile={trunc_file_path} > {outfile_path}")
 
     outfile = open(outfile_path, "r+")
     text = outfile.read()
