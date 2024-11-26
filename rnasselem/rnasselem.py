@@ -1288,7 +1288,6 @@ def ss_prediction(output_dir, position_index, fasta_path, input_string):
 
     outfile = open(outfile_path, "r+")
     text = outfile.read()
-    print(text)
     while text[-1] != "(":
         text = text[:-1]
     text = text[:-1]
