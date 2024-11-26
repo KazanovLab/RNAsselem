@@ -1299,7 +1299,6 @@ def ss_prediction(output_dir, position_index, fasta_path, input_string):
     dotbracket2ct(outfile_path, ct_file_path)
     ctwuss_file_path = os.path.join(f"{results_dir}",f"{subdirectory_name}.ctwuss")
     ct2ctwuss(ct_file_path, ctwuss_file_path)
-    print(ctwuss_file_path, results_dir, subdirectory_name)
     return ctwuss_file_path
 
 
