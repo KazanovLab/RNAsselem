@@ -1253,11 +1253,11 @@ def ss_prediction(output_dir, position_index, fasta_path, input_string):
     else:
         subdirectory_name = os.path.splitext(os.path.basename(fasta_path))[0] + "_" + str(position_index)
 
-    results_dir = output_dir + "\\" + subdirectory_name
+    results_dir = os.path.join(output_dir,subdirectory_name)
     if not os.path.exists(results_dir):
         os.mkdir(results_dir)
 
-    trunc_file_path = results_dir + "\\" + subdirectory_name + "_trunc.fasta"
+    trunc_file_path = os.path.join(results_dir,subdirectory_name + "_trunc.fasta")
     trunc_file = open(trunc_file_path, "w")
 
     if type == "string":
@@ -1283,8 +1283,8 @@ def ss_prediction(output_dir, position_index, fasta_path, input_string):
         input_file.close()
     trunc_file.close()
 
-    outfile_path = rf"{results_dir}\{subdirectory_name}.dot_bracket"
-    os.system(rf"RNAfold.exe --infile={trunc_file_path} > {outfile_path}")
+    outfile_path = os.path.join(f"{results_dir}",f"{subdirectory_name}.db")
+    os.system(f"RNAfold.exe --infile={trunc_file_path} > {outfile_path}")
 
     outfile = open(outfile_path, "r+")
     text = outfile.read()
@@ -1295,9 +1295,9 @@ def ss_prediction(output_dir, position_index, fasta_path, input_string):
     outfile.write(text)
     outfile.truncate()
     outfile.close()
-    ct_file_path = rf"{results_dir}\{subdirectory_name}.ct"
+    ct_file_path = os.path.join(f"{results_dir}",f"{subdirectory_name}.ct")
     dotbracket2ct(outfile_path, ct_file_path)
-    ctwuss_file_path = rf"{results_dir}\{subdirectory_name}.ctwuss"
+    ctwuss_file_path = os.path.join(f"{results_dir}",f"{subdirectory_name}.ctwuss")
     ct2ctwuss(ct_file_path, ctwuss_file_path)
     print(ctwuss_file_path, results_dir, subdirectory_name)
     return ctwuss_file_path
